@@ -70,3 +70,4 @@ void	ft_write_to_cor(t_headers s, t_code *inst, int fd)
 	ft_write_opcode(inst, fd);
 	free(str);
 }
+XC
