@@ -12,35 +12,39 @@
 
 #include "corewar_vm.h"
 
-void 	ft_give_num_help(t_players *ptr, int *mas_pl_num, int val)
+int 	ft_give_num_help(t_mstruc *inst)
 {
-	ptr->pl_num = val + 1;
-	*mas_pl_num = 1;
+	int i;
+	int j;
+	int flag;
+
+	i = 0;
+	while (++i <= MAX_PLAYERS)
+	{
+		j = -1;
+		flag = 0;
+		while (++j < MAX_PLAYERS)
+		{
+			if (inst->player_num[j] == i)
+			{
+				flag = 1;
+				break ;
+			}
+		}
+		if (flag == 0)
+			break ;
+	}
+	return (i);
 }
 
 void	ft_give_num(t_players *ptr, int i, int j, t_mstruc *inst)
 {
-	int 		mas_pl_num[MAX_PLAYERS];
-
-	while (++j < MAX_PLAYERS)
-	{
-		mas_pl_num[j] = 0;
-		if (inst->player_num[j] != 0)
-			mas_pl_num[j] = 1;
-	}
 	while (ptr)
 	{
 		if (inst->player_num[i])
 			ptr->pl_num = inst->player_num[i];
 		else
-		{
-			j = -1;
-			while (++j < MAX_PLAYERS)
-			{
-				if (mas_pl_num[j] == 0)
-					ft_give_num_help(ptr, &(mas_pl_num[j]), j);
-			}
-		}
+			ptr->pl_num = ft_give_num_help(inst);
 		++i;
 		ptr = ptr->next;
 	}

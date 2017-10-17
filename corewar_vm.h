@@ -34,14 +34,27 @@
 # define CANT_READ "Can't read source file"
 # define BAD_NUM_OF_PL "Bad number of player"
 
+typedef struct s_opcode
+{
+	unsigned int	row_size;
+	int				operation;
+	int				cod_byte;
+	int				num_param;
+	int				param[3];
+	int				param_size[3];
+	int 			type_param[3];
+}				t_opcode;
+
 typedef struct	s_process
 {
 	int					validation_flag;
 	int 				operation;
+	int 				op_cycle;
 	int					reg[REG_NUMBER];
 	int					pc;
 	int					carry;
 	int					live_flag;
+	t_opcode			*opcode;
 	struct s_process	*prev;
 	struct s_process	*next;
 }				t_process;
@@ -49,7 +62,7 @@ typedef struct	s_process
 typedef struct	s_players
 {
 	header_t			*header;
-	char 				*opcode;
+	unsigned char 		*opcode;
 	int					pl_num;
 	int					live_flag;
 	long int			last_live;
@@ -73,17 +86,6 @@ typedef struct	s_mstruc
 	unsigned int	live_current_per;
 	unsigned int	live_last_per;
 }				t_mstruc;
-
-typedef struct s_opcode
-{
-	unsigned int	row_size;
-	int				operation;
-	int				cod_byte;
-	int				num_param;
-	int				param[3];
-	int				param_size[3];
-	int 			type_param[3];
-}				t_opcode;
 
 typedef struct		s_op
 {
@@ -116,7 +118,7 @@ int 	ft_lst_len(void *lst, int flag, int len);
 /*
 ** initialization.c
 */
-void	ft_init_opcode(t_opcode *op_lst);
+t_opcode	*ft_init_opcode(void);
 t_process *ft_init_process(void);
 header_t	*ft_init_header(void);
 t_mstruc *ft_init_mstruct(void);
@@ -152,13 +154,48 @@ char	*ft_move_to_mas(t_mstruc *inst);
 void	ft_copy_player(t_players *des, t_players *src);
 int 	ft_check_repeat_num(t_mstruc *inst);
 void	ft_give_num(t_players *ptr, int i, int j, t_mstruc *inst);
-void 	ft_give_num_help(t_players *ptr, int *mas_pl_num, int val);
-
+int 	ft_give_num_help(t_mstruc *inst);
 /*
 ** core_war.c
 */
 void	ft_core_war(t_mstruc *inst);
 void	ft_create_process(t_mstruc *inst);
 void	ft_check_flags(t_mstruc *inst);
+
+/*
+** valid_opcode.c
+*/
+int ft_opcode(int *pc, unsigned char *memory, t_opcode *code);
+
+/*
+** aslochen
+*/
+size_t		get_pc(size_t pc);
+t_process	*empty_process(void);
+t_process	*copy_process(t_process *rhs);
+void 		new_process(t_process *rpr, t_mstruc *ms, int pc);
+void 		delete_process(t_process *pr, t_mstruc *ms);
+void		value_to_memory(t_mstruc *ms, size_t pos, int val);
+
+void 		live_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ld_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		st_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		add_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		sub_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		and_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		or_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		xor_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		zjmp_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		sti_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		fork_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		lld_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		lldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		lfork_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		aff_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
+
+void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
 #endif //COREWAR_VM_COREWAR_VM_H

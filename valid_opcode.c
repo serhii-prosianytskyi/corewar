@@ -94,23 +94,17 @@ void	ft_fill_param(t_opcode *op_lst, char *str, int *ind)
 	}
 }
 
-int ft_opcode(int *pc, char *memory, int flag)
+int ft_opcode(int *pc, unsigned char *memory, t_opcode *code)
 {
-	unsigned int num;
-	t_opcode		opcode;
-
-	if (flag == 0)
+	code->operation = memory[*pc];
+	*pc += 1;
+	if (help.coding_byte[code->operation - 1])
 	{
-		opcode.operation = memory[*pc];
+		code->cod_byte = memory[*pc];
 		*pc += 1;
 	}
-	if (help.coding_byte[opcode.operation - 1])
-	{
-		opcode.cod_byte = memory[*pc];
-		*pc += 1;
-	}
-	opcode.num_param = op_tab[opcode.operation - 1].num_arguments;
-	ft_fill_param_size(&opcode);
-	ft_fill_param(&opcode, memory, pc);
+	code->num_param = op_tab[code->operation - 1].num_arguments;
+	ft_fill_param_size(code);
+	ft_fill_param(code, memory, pc);
 	return (0);
 }

@@ -25,21 +25,24 @@ header_t	*ft_init_header(void)
 	return (header);
 }
 
-void	ft_init_opcode(t_opcode *op_lst)
+t_opcode	*ft_init_opcode(void)
 {
-	op_lst->row_size = 0;
-	op_lst->operation = -1;
-	op_lst->cod_byte = 0;
-	op_lst->num_param = 0;
-	op_lst->param[0] = 0;
-	op_lst->param[1] = 0;
-	op_lst->param[2] = 0;
-	op_lst->param_size[0] = 0;
-	op_lst->param_size[1] = 0;
-	op_lst->param_size[2] = 0;
-	op_lst->type_param[0] = 0;
-	op_lst->type_param[1] = 0;
-	op_lst->type_param[2] = 0;
+	t_opcode *opcode;
+
+	opcode = (t_opcode *)malloc(sizeof(t_opcode));
+	opcode->row_size = 0;
+	opcode->operation = -1;
+	opcode->cod_byte = 0;
+	opcode->num_param = 0;
+	opcode->param[0] = 0;
+	opcode->param[1] = 0;
+	opcode->param[2] = 0;
+	opcode->param_size[0] = 0;
+	opcode->param_size[1] = 0;
+	opcode->param_size[2] = 0;
+	opcode->type_param[0] = 0;
+	opcode->type_param[1] = 0;
+	opcode->type_param[2] = 0;
 }
 
 t_process *ft_init_process(void)
@@ -50,12 +53,14 @@ t_process *ft_init_process(void)
 	process = (t_process *)malloc(sizeof(t_process));
 	process->validation_flag = 0;
 	process->operation = 0;
+	process->op_cycle = -1;
 	i = -1;
 	while (++i < REG_NUMBER)
 		process->reg[i] = 0;
 	process->pc = 0;
 	process->carry = 0;
 	process->live_flag = 0;
+	process->opcode = NULL;
 	process->prev = NULL;
 	process->next = NULL;
 	return (process);

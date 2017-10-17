@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	params[i] = NULL;
 	inst = ft_init_mstruct();
 	ft_validation_arg(argc, params, inst, 0);
-	//ft_core_war(inst);
+	ft_core_war(inst);
 	ft_del_struct(inst);
 	return (0);
 }
