@@ -61,6 +61,9 @@ void	ft_fill_opcode_mem(t_mstruc *inst)
 
 void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 {
+	int flag;
+
+	flag = 0;
 	if (live_flag && (inst->live_current_per >= NBR_LIVE ||
 		*live_flag == MAX_CHECKS))
 	{
@@ -75,9 +78,11 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 		if (process->op_cycle == -1)
 		{
 			process->opcode = ft_init_opcode();
-			if (ft_opcode(&(process->pc), inst, process) == 0)
+			if ((flag = ft_opcode(&(process->pc), inst, process)) == 0)
 				process->validation_flag = 1;
 			process->op_cycle = op_tab[process->opcode->operation].cycles;
+			if (flag == 2)
+				process->op_cycle = 0;
 		}
 		else if (process->op_cycle > 0)
 			process->op_cycle--;

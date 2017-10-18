@@ -187,6 +187,11 @@ int ft_validate_coding_byte(t_process *process)
 int ft_opcode(int *pc, t_mstruc *inst, t_process *process)
 {
 	process->opcode->operation = inst->memory[*pc];
+	if (process->opcode->operation < 1 || process->opcode->operation > 16)
+	{
+		process->opcode->row_size += 1;
+		return (2);
+	}
 	*pc += 1;
 	if (help.coding_byte[process->opcode->operation - 1])
 	{
