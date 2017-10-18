@@ -158,14 +158,15 @@ int 	ft_give_num_help(t_mstruc *inst);
 /*
 ** core_war.c
 */
-void	ft_core_war(t_mstruc *inst);
+void	ft_core_war(t_mstruc *inst, int live_flag);
 void	ft_create_process(t_mstruc *inst);
 void	ft_check_flags(t_mstruc *inst);
+void	ft_choose_one(t_mstruc *inst);
 
 /*
 ** valid_opcode.c
 */
-int ft_opcode(int *pc, unsigned char *memory, t_opcode *code);
+int ft_opcode(int *pc, t_mstruc *inst, t_process *process);
 
 /*
 ** aslochen

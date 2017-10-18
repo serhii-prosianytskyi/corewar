@@ -43,6 +43,7 @@ t_opcode	*ft_init_opcode(void)
 	opcode->type_param[0] = 0;
 	opcode->type_param[1] = 0;
 	opcode->type_param[2] = 0;
+	return (opcode);
 }
 
 t_process *ft_init_process(void)

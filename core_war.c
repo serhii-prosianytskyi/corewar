@@ -39,28 +39,6 @@ void	ft_check_flags(t_mstruc *inst)
 
 }
 
-void	ft_validate_opcode(t_process *process, t_mstruc *inst)
-{
-
-	if (process->op_cycle == -1)
-	{
-		process->opcode = ft_init_opcode();
-		if (ft_opcode(&(process->pc), inst->memory, process->opcode))
-			process->validation_flag = 1;
-		else
-			process->op_cycle = op_tab[process->opcode->operation].cycles;
-	}
-	else if (process->op_cycle > 0)
-		process->op_cycle--;
-	else
-	{
-		ft_comands(inst, process, process->opcode);
-		process->op_cycle = -1;
-		free(process->opcode);
-		process->opcode = NULL;
-	}
-}
-
 void	ft_fill_opcode_mem(t_mstruc *inst)
 {
 	int i;
@@ -81,23 +59,92 @@ void	ft_fill_opcode_mem(t_mstruc *inst)
 	}
 }
 
-void	ft_core_war(t_mstruc *inst)
+void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
+{
+	if (live_flag && (inst->live_current_per >= NBR_LIVE ||
+		*live_flag == MAX_CHECKS))
+	{
+		*live_flag = 0;
+		if (inst->cycle_to_die > CYCLE_DELTA)
+			inst->cycle_to_die -= CYCLE_DELTA;
+		if (process->live_flag == 0)
+			delete_process(process, inst);
+	}
+	else
+	{
+		if (process->op_cycle == -1)
+		{
+			process->opcode = ft_init_opcode();
+			if (ft_opcode(&(process->pc), inst, process) == 0)
+				process->validation_flag = 1;
+			process->op_cycle = op_tab[process->opcode->operation].cycles;
+		}
+		else if (process->op_cycle > 0)
+			process->op_cycle--;
+		else
+		{
+			if (process->validation_flag)
+				ft_comands(inst, process, process->opcode);
+			else
+				process->pc += process->opcode->row_size;
+			process->op_cycle = -1;
+			free(process->opcode);
+			process->opcode = NULL;
+		}
+	}
+}
+
+void	ft_core_war(t_mstruc *inst, int live_flag)
 {
 	t_process *lst;
 
-	ft_create_process(inst);
 	//ft_check_flags(inst);
-	ft_fill_opcode_mem(inst);
-	while (inst->total_cycle < inst->dump_flag)
+	while (inst->total_cycle != inst->dump_flag)
 	{
+
 		lst = inst->process;
+		if (lst == NULL)
+			return ;
 		while (lst)
 		{
-			ft_validate_opcode(lst, inst);
+			ft_validate_opcode(lst, inst, &live_flag);
 			lst = lst->next;
 		}
-		if (ft_lst_len(inst->process, 2, 0) == 0)
-			return ;
-		inst->total_process++;
+		inst->total_cycle++;
+		if ((inst->total_cycle % inst->cycle_to_die) == 0)
+			live_flag++;
 	}
+}
+
+void	ft_core_war_viz(t_mstruc *inst, int live_flag)
+{
+	t_process	*lst;
+
+	while (inst->total_cycle >= 0)
+	{
+		lst = inst->process;
+		if (lst == NULL)
+			return ;
+		while (lst)
+		{
+			ft_validate_opcode(lst, inst, &live_flag);
+			lst = lst->next;
+		}
+		inst->total_cycle++;
+		if ((inst->total_cycle % inst->cycle_to_die) == 0)
+			live_flag++;
+	}
+}
+
+void	ft_choose_one(t_mstruc *inst)
+{
+	int 		live_flag;
+
+	ft_create_process(inst);
+	ft_fill_opcode_mem(inst);
+	live_flag = -1;
+	if (inst->bonus_flag)
+		ft_core_war_viz(inst, live_flag);
+	else
+		ft_core_war(inst, live_flag);
 }
