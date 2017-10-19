@@ -22,8 +22,10 @@ operators/06_and.c operators/07_or.c operators/08_xor.c \
 operators/09_zjmp.c operators/10_ldi.c operators/11_sti.c \
 operators/12_fork.c operators/13_lld.c operators/14_lldi.c \
 operators/15_lfork.c operators/16_aff.c \
-process_tools.c op.c exec_of_comands.c main.c
-
+process_tools.c op.c exec_of_comands.c vm_main.c core_war.c \
+decoding.c initialization.c list.c type_param.c valid_opcode.c \
+validation_argc.c validation_argc_2.c validation_cor.c \
+var_param.c
 
 OBJ = $(SRC:.c=.o)
 
