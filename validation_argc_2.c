@@ -44,7 +44,10 @@ void	ft_give_num(t_players *ptr, int i, int j, t_mstruc *inst)
 		if (inst->player_num[i])
 			ptr->pl_num = inst->player_num[i];
 		else
+		{
 			ptr->pl_num = ft_give_num_help(inst);
+			inst->player_num[i] = ptr->pl_num;
+		}
 		++i;
 		ptr = ptr->next;
 	}

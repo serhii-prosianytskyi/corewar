@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
 # define DUMP	"-dump"
 # define NUM	"-n"
 # define MANY_CHAMP "Too many champions"
@@ -33,6 +34,7 @@
 # define LARGE_CODE " has too large a code"
 # define CANT_READ "Can't read source file"
 # define BAD_NUM_OF_PL "Bad number of player"
+# define MULTIPLE_USE "Multiple use argument"
 
 typedef struct s_opcode
 {
@@ -127,7 +129,7 @@ t_players *ft_init_players(void);
 int ft_uint(int ind, char *str);
 short ft_ushort(int ind, char *str);
 
-void	ft_error_vm(char *error_mes, t_mstruc *inst, char **params);
+void	ft_error_vm(char *error_mes, t_mstruc *inst, char **params, int i);
 char	*ft_realloc(char *ptr, int size, char *buf);
 
 /*
@@ -144,7 +146,7 @@ char *ft_read_op(int fd, int size);
 void	ft_validation_arg(int argc, char **params, t_mstruc *inst, int i);
 char	*ft_create_new_player(int i, char **params, t_mstruc *inst);
 int 	ft_file_extension(char *str);
-char	*ft_num_player(int ind, char **params, t_mstruc *inst, int i);
+char	*ft_num_player(int *ind, char **params, t_mstruc *inst, int i);
 char	*ft_dump_num(int *ind, char **params, t_mstruc *inst);
 
 /*
@@ -166,7 +168,7 @@ void	ft_choose_one(t_mstruc *inst);
 /*
 ** valid_opcode.c
 */
-int ft_opcode(int *pc, t_mstruc *inst, t_process *process);
+int ft_opcode(int pc, t_mstruc *inst, t_process *process);
 int ft_validate_coding_byte(t_process *process);
 void ft_fill_param_size(t_opcode *op_lst);
 int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind);

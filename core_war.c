@@ -78,7 +78,7 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 		if (process->op_cycle == -1)
 		{
 			process->opcode = ft_init_opcode();
-			if ((flag = ft_opcode(&(process->pc), inst, process)) == 0)
+			if ((flag = ft_opcode(process->pc, inst, process)) == 0)
 				process->validation_flag = 1;
 			process->op_cycle = op_tab[process->opcode->operation].cycles;
 			if (flag == 2)
@@ -106,7 +106,6 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 	//ft_check_flags(inst);
 	while (inst->total_cycle != inst->dump_flag)
 	{
-
 		lst = inst->process;
 		if (lst == NULL)
 			return ;

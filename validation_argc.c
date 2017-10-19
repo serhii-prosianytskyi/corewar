@@ -12,42 +12,78 @@
 
 #include "corewar_vm.h"
 
+long int	ft_atoi_mod(char *str)
+{
+	long int	res;
+	int			minus;
+
+	res = 0;
+	minus = 1;
+	while (*str == ' ' || *str == '\n' || *str == '\t' ||
+		   *str == '\r' || *str == '\v' || *str == '\f')
+		++str;
+	if (*str == '-')
+		minus = -1;
+	if (*str == '-' || *str == '+')
+		++str;
+	while (*str != '\0' && *str >= '0' && *str <= '9')
+	{
+		res = res * 10 + (*str - '0');
+		++str;
+	}
+	return (res * minus);
+}
+
 char *ft_dump_num(int *ind, char **params, t_mstruc *inst)
 {
 	int i;
+	int flag;
 
 	i = -1;
-	if (params[*ind + 1])
+	flag = 0;
+	if (inst->dump_flag == -14570)
 	{
-		while (params[*ind + 1][++i])
+		if (params[*ind + 1])
 		{
-			if (ft_isdigit(params[*ind + 1][i]) == 0)
+			while (params[*ind + 1][++i])
 			{
-				if (i == 0 && params[*ind + 1][i] == '-')
-					;
-				else
-					return (USAGE);
+				if (ft_isdigit(params[*ind + 1][i]) == 0)
+				{
+					if (i == 0 && params[*ind + 1][i] == '-')
+						;
+					else
+						flag++;
+				}
 			}
+			*ind += 1;
+			if (ft_strlen(params[*ind]) > 10 ||
+					((inst->dump_flag = ft_atoi_mod(params[*ind])) >= INT_MAX ||
+					 inst->dump_flag <= INT_MIN))
+				flag++;
+			if (flag)
+				return (NUM_WRONG);
+			return (NULL);
 		}
-		*ind += 1;
-		inst->dump_flag = ft_atoi(params[*ind]);
-		return (NULL);
+		return (NUM_WRONG);
 	}
-	return (USAGE);
+	return (MULTIPLE_USE);
 }
 
-char	*ft_num_player(int ind, char **params, t_mstruc *inst, int i)
+char	*ft_num_player(int *ind, char **params, t_mstruc *inst, int i)
 {
-	int num;
+	long int num;
+	char *str;
 
-	if (params[ind] && params[ind + 1])
+	*ind += 1;
+	if (params[*ind] && params[*ind + 1])
 	{
-		while (params[ind][++i])
+		str = params[*ind];
+		while (params[*ind][++i])
 		{
-			if (ft_isdigit(params[ind][i]) == 0)
+			if (ft_isdigit(params[*ind][i]) == 0)
 				return (NUM_WRONG);
 		}
-		num = ft_atoi(params[ind]);
+		num = ft_atoi_mod(params[*ind]);
 		if (num < 1 || num > MAX_PLAYERS)
 			return (NUM_WRONG);
 		else
@@ -56,7 +92,8 @@ char	*ft_num_player(int ind, char **params, t_mstruc *inst, int i)
 			if (i < MAX_PLAYERS)
 			{
 				inst->player_num[i] = num;
-				return (NULL);
+				*ind += 1;
+				return (ft_create_new_player(*ind, params, inst));
 			}
 			else
 				return (MANY_CHAMP);
@@ -111,31 +148,41 @@ char	*ft_create_new_player(int i, char **params, t_mstruc *inst)
 	return (str);
 }
 
+char *ft_check_bonus(t_mstruc *inst)
+{
+	if (inst->bonus_flag)
+		return (MULTIPLE_USE);
+	else
+	{
+		inst->bonus_flag += 1;
+		return (NULL);
+	}
+}
 
 void	ft_validation_arg(int argc, char **params, t_mstruc *inst, int i)
 {
 	char *fail;
-
-	fail = NULL;
+	char *str;
 	argc -= 1;
 	while (++i < argc)
 	{
+		str = params[i];
 		if (ft_strcmp(params[i], BONUS) == 0)
-			inst->bonus_flag = 1;
+			fail = ft_check_bonus(inst);
 		else if (ft_strcmp(params[i], DUMP) == 0)
 			fail = ft_dump_num(&i, params, inst);
 		else if (ft_strcmp(params[i], NUM) == 0)
-			fail = ft_num_player(++i, params, inst, -1);
+			fail = ft_num_player(&i, params, inst, -1);
 		else
 			fail = ft_create_new_player(i, params, inst);
 		if (fail)
-			ft_error_vm(fail, inst, params);
+			ft_error_vm(fail, inst, params, i);
 	}
 	if ((i = ft_lst_len(inst->players, 1, 0)) == 0)
-		ft_error_vm(NOT_CHAMP, inst, params);
+		ft_error_vm(NOT_CHAMP, inst, params, -1);
 	if (i > MAX_PLAYERS)
-		ft_error_vm(MANY_CHAMP, inst, params);
+		ft_error_vm(MANY_CHAMP, inst, params, -1);
 	if ((fail = ft_move_to_mas(inst)) != NULL)
-		ft_error_vm(fail, inst, params);
+		ft_error_vm(fail, inst, params, -1);
 	ft_dell_mas(params);
 }

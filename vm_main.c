@@ -69,14 +69,19 @@ void	ft_del_struct(t_mstruc *inst)
 	free(inst);
 }
 
-void	ft_error_vm(char *error_mes, t_mstruc *inst, char **params)
+void	ft_error_vm(char *error_mes, t_mstruc *inst, char **params, int i)
 {
+	write(2, "ERROR : ", 8);
+	write(2, error_mes, ft_strlen(error_mes));
+	if (i)
+	{
+		write(2, "  ", 2);
+		write(2, params[i], ft_strlen(params[i]));
+	}
 	if (params)
 		ft_dell_mas(params);
 	if (inst)
 		ft_del_struct(inst);
-	write(2, "ERROR : ", 8);
-	write(2, error_mes, ft_strlen(error_mes));
 	exit(1);
 }
 
