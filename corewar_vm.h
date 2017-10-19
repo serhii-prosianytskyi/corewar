@@ -112,6 +112,8 @@ typedef struct                 s_helper
 
 t_helper help;
 t_op    op_tab[17];
+//typedef void (*op_type)(t_mstruc *ms, t_process *pr, t_opcode *arg);
+//op_type *operator;
 
 void	ft_dell_mas(char **mas);
 void	*ft_lst_end(void *lst, int flag);
@@ -190,14 +192,13 @@ int ft_second_param(t_opcode *op_lst, int num);
 int ft_first_param(t_opcode *op_lst, int num);
 
 /*
-** aslochen
+** askochen
 */
-size_t		get_pc(size_t pc);
-t_process	*empty_process(void);
+int			get_pc(int pc);
 t_process	*copy_process(t_process *rhs);
 void 		new_process(t_process *rpr, t_mstruc *ms, int pc);
 void 		delete_process(t_process *pr, t_mstruc *ms);
-void		value_to_memory(t_mstruc *ms, size_t pos, int val);
+void		value_to_memory(t_mstruc *ms, int pos, int val);
 
 void 		live_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ld_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
@@ -216,8 +217,9 @@ void 		lldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		lfork_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		aff_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
-void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
-void ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
-void ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
+//void 		init_operators();
+void 		ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
 #endif //COREWAR_VM_COREWAR_VM_H

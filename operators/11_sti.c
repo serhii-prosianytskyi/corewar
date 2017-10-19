@@ -4,7 +4,7 @@ void sti_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
 	unsigned int	first;
 	unsigned int	second;
-	size_t			sum;
+	int 			sum;
 
 	if (!(arg->param[0] >= 1 && arg->param[0] <= 16)
 		|| (arg->type_param[1] == T_REG && !(arg->param[1] >= 1 && arg->param[1] <= 16))
