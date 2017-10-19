@@ -12,63 +12,6 @@
 
 #include "corewar_vm.h"
 
-int ft_first_param(t_opcode *op_lst, int num)
-{
-	if ((num & 64) == 64)
-		return (1);
-	else if ((num & 128) == 128)
-		return (help.label_size[op_lst->operation - 1]);
-	else
-		return (2);
-}
-
-int ft_second_param(t_opcode *op_lst, int num)
-{
-	if ((num & 16) == 16)
-		return (1);
-	else if ((num & 32) == 32)
-		return (help.label_size[op_lst->operation - 1]);
-	else
-		return (2);
-}
-
-int ft_third_param(t_opcode *op_lst, int num)
-{
-	if ((num & 4) == 4)
-		return (1);
-	else if ((num & 8) == 8)
-		return (help.label_size[op_lst->operation - 1]);
-	else
-		return (2);
-}
-
-int	ft_var_param(t_opcode *op_lst, int nam_arg)
-{
-	int rez;
-
-	if (nam_arg == 0)
-		rez = ft_first_param(op_lst, op_lst->cod_byte);
-	if (nam_arg == 1)
-		rez = ft_second_param(op_lst, op_lst->cod_byte);
-	if (nam_arg == 2)
-		rez = ft_third_param(op_lst, op_lst->cod_byte);
-	return (rez);
-}
-
-void ft_fill_param_size(t_opcode *op_lst)
-{
-	int i;
-
-	i = -1;
-	while (++i < op_lst->num_param)
-	{
-		if (help.arg_size[op_lst->operation - 1][i])
-			op_lst->param_size[i] = help.arg_size[op_lst->operation - 1][i];
-		else
-			op_lst->param_size[i] = ft_var_param(op_lst, i);
-	}
-}
-
 int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind)
 {
 	int i;
@@ -97,64 +40,18 @@ int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind)
 	return (0);
 }
 
-int ft_type_param(t_opcode *op_lst, int nam_arg, unsigned char *test_byte)
+void ft_fill_param_size(t_opcode *op_lst)
 {
-	if (nam_arg == 0)
-	{
-		if ((op_lst->cod_byte & 192) == 192)
-		{
-			*test_byte += 192;
-			return (T_IND);
-		}
-		if ((op_lst->cod_byte & 64) == 64)
-		{
-			*test_byte += 64;
-			return (T_REG);
-		}
-		else if ((op_lst->cod_byte & 128) == 128)
-		{
-			*test_byte += 128;
-			return (T_DIR);
-		}
-	}
-	else if (nam_arg == 1)
-	{
-		if ((op_lst->cod_byte & 48) == 48)
-		{
-			*test_byte += 48;
-			return (T_IND);
-		}
-		else if ((op_lst->cod_byte & 16) == 16)
-		{
-			*test_byte += 16;
-			return (T_REG);
-		}
-		else if ((op_lst->cod_byte & 32) == 32)
-		{
-			*test_byte += 32;
-			return (T_DIR);
-		}
-	}
-	else if (nam_arg == 2)
-	{
+	int i;
 
-		if ((op_lst->cod_byte & 12) == 12)
-		{
-			*test_byte += 12;
-			return (T_IND);
-		}
-		else if ((op_lst->cod_byte & 4) == 4)
-		{
-			*test_byte += 4;
-			return (T_REG);
-		}
-		else if ((op_lst->cod_byte & 8) == 8)
-		{
-			*test_byte += 8;
-			return (T_DIR);
-		}
+	i = -1;
+	while (++i < op_lst->num_param)
+	{
+		if (help.arg_size[op_lst->operation - 1][i])
+			op_lst->param_size[i] = help.arg_size[op_lst->operation - 1][i];
+		else
+			op_lst->param_size[i] = ft_var_param(op_lst, i);
 	}
-	return (0);
 }
 
 int ft_validate_coding_byte(t_process *process)

@@ -167,6 +167,25 @@ void	ft_choose_one(t_mstruc *inst);
 ** valid_opcode.c
 */
 int ft_opcode(int *pc, t_mstruc *inst, t_process *process);
+int ft_validate_coding_byte(t_process *process);
+void ft_fill_param_size(t_opcode *op_lst);
+int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind);
+
+/*
+** type_param.c
+*/
+int ft_type_param(t_opcode *op_lst, int nam_arg, unsigned char *test_byte);
+int ft_type_param_3(t_opcode *op_lst, unsigned char *test_byte);
+int ft_type_param_2(t_opcode *op_lst, unsigned char *test_byte);
+int ft_type_param_1(t_opcode *op_lst, unsigned char *test_byte);
+
+/*
+** var_param.c
+*/
+int	ft_var_param(t_opcode *op_lst, int nam_arg);
+int ft_third_param(t_opcode *op_lst, int num);
+int ft_second_param(t_opcode *op_lst, int num);
+int ft_first_param(t_opcode *op_lst, int num);
 
 /*
 ** aslochen

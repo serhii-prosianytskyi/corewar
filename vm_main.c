@@ -22,7 +22,7 @@ void	ft_dell_mas(char **mas)
 	free(mas);
 }
 
-t_players *ft_dell_players(t_players *lst)
+t_players *ft_dell_players_lst(t_players *lst)
 {
 	t_players *ptr;
 
@@ -43,7 +43,7 @@ t_players *ft_dell_players(t_players *lst)
 	return (NULL);
 }
 
-t_process *ft_dell_process(t_process *lst)
+t_process *ft_dell_process_lst(t_process *lst)
 {
 	t_process *ptr;
 
@@ -63,9 +63,9 @@ t_process *ft_dell_process(t_process *lst)
 void	ft_del_struct(t_mstruc *inst)
 {
 	if (inst->players)
-		inst->players = ft_dell_players(inst->players);
+		inst->players = ft_dell_players_lst(inst->players);
 	if (inst->process)
-		inst->process = ft_dell_process(inst->process);
+		inst->process = ft_dell_process_lst(inst->process);
 	free(inst);
 }
 
