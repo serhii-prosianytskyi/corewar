@@ -13,7 +13,7 @@ t_process	*empty_process()
 	i = 0;
 	pr = (t_process*)malloc(sizeof(t_process));
 	pr->validation_flag = 0;
-	pr->operation_num = 0;
+	pr->operation = 0;
 	pr->pc = 0;
 	pr->carry = 0;
 	pr->live_flag = 0;
@@ -35,7 +35,7 @@ t_process	*copy_process(t_process *rhs)
 	i = 0;
 	pr = empty_process();
 	pr->validation_flag = rhs->validation_flag;
-	pr->operation_num = rhs->operation_num;
+	pr->operation = rhs->operation;
 	pr->pc = rhs->pc;
 	pr->carry = rhs->carry;
 	pr->live_flag = rhs->live_flag;
