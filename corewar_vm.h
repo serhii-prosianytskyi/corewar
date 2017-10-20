@@ -53,7 +53,7 @@ typedef struct	s_process
 	int 				operation;
 	int 				op_cycle;
 	int					reg[REG_NUMBER];
-	int					pc;
+	int					pc;//каретка процесу
 	int					carry;
 	int					live_flag;
 	t_opcode			*opcode;
@@ -63,28 +63,28 @@ typedef struct	s_process
 
 typedef struct	s_players
 {
-	header_t			*header;
+	header_t			*header;//збережено імя гравця і комент
 	unsigned char 		*opcode;
-	int					pl_num;
+	int					pl_num;// номер гравця
 	int					live_flag;
-	long int			last_live;
+	long int			last_live;// необхідно для візуалізаціі
 	struct s_players	*next;
 }				t_players;
 
 typedef struct	s_mstruc
 {
-	int				bonus_flag;
+	int				bonus_flag;//якщо не 0 запускаємо dspefkspfws.
 	long int		dump_flag;
-	unsigned char	memory[MEM_SIZE];
-	int				num_of_players;
+	unsigned char	memory[MEM_SIZE];//память
+	int				num_of_players; //кількість гравців
 	int 			player_num[MAX_PLAYERS];
 	t_players		*players;
-	t_players		mas_player[MAX_PLAYERS];
+	t_players		mas_player[MAX_PLAYERS]; //масив гравців заповнений по (номер гравця - 1)
 	t_process		*process;
-	int				winner;
-	unsigned int	total_process;
-	unsigned int	cycle_to_die;
-	long int		total_cycle;
+	int				winner;// mas_player[winner].header->prog_name  mas_player[winner].header->comment mas_player[winner].pl_num необхідні для виводу інформації про переможця
+	unsigned int	total_process; // загальна кількість процесів необхідна для візуалізації
+	unsigned int	cycle_to_die;// виводитться в візуалізаціїї
+	long int		total_cycle;// номер ітерації циклу (для візуалізації)
 	unsigned int	live_current_per;
 	unsigned int	live_last_per;
 }				t_mstruc;
@@ -109,6 +109,9 @@ typedef struct                 s_helper
 	int 					var_arg[16][3];
 	int 					arg_size[16][3];
 }                            t_helper;
+
+typedef void (*op_type)(t_mstruc *ms, t_process *pr, t_opcode *arg);
+op_type *operator;
 
 t_helper help;
 t_op    op_tab[17];
@@ -140,12 +143,12 @@ char	*ft_realloc(char *ptr, int size, char *buf);
 char *ft_validation_cor(int fd, t_players *player);
 char *ft_prog_name(int fd, char *prog_name);
 char *ft_prog_comment(int fd, char *comment);
-char *ft_read_op(int fd, int size);
+unsigned char *ft_read_op(int fd, int size);
 
 /*
 ** validation_argc.c
 */
-void	ft_validation_arg(int argc, char **params, t_mstruc *inst, int i);
+void	ft_validation_arg(char **params, t_mstruc *inst, int i);
 char	*ft_create_new_player(int i, char **params, t_mstruc *inst);
 int 	ft_file_extension(char *str);
 char	*ft_num_player(int *ind, char **params, t_mstruc *inst, int i);
@@ -173,7 +176,7 @@ void	ft_choose_one(t_mstruc *inst);
 int ft_opcode(int pc, t_mstruc *inst, t_process *process);
 int ft_validate_coding_byte(t_process *process);
 void ft_fill_param_size(t_opcode *op_lst);
-int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind);
+int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind, t_process *pr);
 
 /*
 ** type_param.c
@@ -190,6 +193,11 @@ int	ft_var_param(t_opcode *op_lst, int nam_arg);
 int ft_third_param(t_opcode *op_lst, int num);
 int ft_second_param(t_opcode *op_lst, int num);
 int ft_first_param(t_opcode *op_lst, int num);
+
+/*
+** write_rez.c
+*/
+void	ft_write_contestants(t_mstruc *inst, int i);
 
 /*
 ** askochen

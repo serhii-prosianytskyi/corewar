@@ -19,12 +19,8 @@ t_process	*copy_process(t_process *rhs)
 
 	i = 0;
 	pr = ft_init_process();
-	pr->validation_flag = rhs->validation_flag;
-	pr->operation = rhs->operation;
-	pr->op_cycle = rhs->op_cycle;
 	pr->pc = rhs->pc;
 	pr->carry = rhs->carry;
-	pr->live_flag = rhs->live_flag;
 	pr->prev = NULL;
 	pr->next = NULL;
 	while (i < REG_NUMBER)

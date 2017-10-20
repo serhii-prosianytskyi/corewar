@@ -63,7 +63,6 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 {
 	int flag;
 
-	flag = 0;
 	if (live_flag && (inst->live_current_per >= NBR_LIVE ||
 		*live_flag == MAX_CHECKS))
 	{
@@ -80,11 +79,11 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 			process->opcode = ft_init_opcode();
 			if ((flag = ft_opcode(process->pc, inst, process)) == 0)
 				process->validation_flag = 1;
-			process->op_cycle = op_tab[process->opcode->operation].cycles;
+			process->op_cycle = op_tab[process->opcode->operation - 1].cycles;
 			if (flag == 2)
-				process->op_cycle = 0;
+				process->op_cycle = 1;
 		}
-		else if (process->op_cycle > 0)
+		else if (process->op_cycle > 1)
 			process->op_cycle--;
 		else
 		{
@@ -104,6 +103,7 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 	t_process *lst;
 
 	//ft_check_flags(inst);
+	ft_write_contestants(inst, -1);
 	while (inst->total_cycle != inst->dump_flag)
 	{
 		lst = inst->process;

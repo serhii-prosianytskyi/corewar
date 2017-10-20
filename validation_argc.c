@@ -159,14 +159,12 @@ char *ft_check_bonus(t_mstruc *inst)
 	}
 }
 
-void	ft_validation_arg(int argc, char **params, t_mstruc *inst, int i)
+void	ft_validation_arg(char **params, t_mstruc *inst, int i)
 {
 	char *fail;
-	char *str;
-	argc -= 1;
-	while (++i < argc)
+
+	while (params[++i])
 	{
-		str = params[i];
 		if (ft_strcmp(params[i], BONUS) == 0)
 			fail = ft_check_bonus(inst);
 		else if (ft_strcmp(params[i], DUMP) == 0)

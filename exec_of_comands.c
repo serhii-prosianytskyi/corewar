@@ -4,7 +4,7 @@ void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
 	if (pr->operation >= 1 && pr->operation <= 10)
 		ft_execution_of_comands(ms, pr, arg);
-	 else
+	else
 		ft_execution_of_comands1(ms, pr, arg);
 }
 
@@ -69,10 +69,18 @@ void ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	operator[15] = aff_com;
 }
 
-void execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
+void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
 	operator[pr->operation](ms, pr, arg);
 }
 
-
-init_operators();*/
+void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
+{
+	if (pr->operation >= 0 && pr->operation <= 15)
+	{
+		operator[pr->operation](ms, pr, arg);
+		if (pr->operation != 8)
+		pr->pc = pr->pc + pr->opcode->row_size;
+	}
+}
+*/
