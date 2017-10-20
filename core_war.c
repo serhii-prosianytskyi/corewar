@@ -105,9 +105,10 @@ void	ft_core_war_viz(t_mstruc *inst, int live_flag)
 
   	draw = (t_draw *)malloc(sizeof(draw));
   	init_wind(draw);
+  	show_players(inst, draw);
 	while (inst->total_cycle != inst->dump_flag)
 	{
-		output_core(draw, inst->memory,inst->total_cycle);
+		output_core(inst, draw);
 		wrefresh(draw->win[0]);
    		wrefresh(draw->win[1]);
 		// inst->num_of_players;

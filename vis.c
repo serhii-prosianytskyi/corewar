@@ -4,7 +4,7 @@
 #include "corewar_vm.h"
 #include "draw.h"
 
-void output_core(t_draw *draw, unsigned char *memory, int i)
+void		output_core(t_mstruc *inst, t_draw *draw)
 {
 	int x;
 	int y;
@@ -18,15 +18,47 @@ void output_core(t_draw *draw, unsigned char *memory, int i)
 		x = 2;  
 		for (int i = 0; i < 64; i++)
 		{
-			mvwprintw(draw->win[0],y, x,"%.2x", memory[k]);
+			mvwprintw(draw->win[0],y, x,"%.2x", inst->memory[k]);
 			k++;
 			x += 3;
 		}
 		y++;
 	}
-	mvwprintw(draw->win[1],8, 12,"%.d", i);
- // usleep(100);
+	mvwprintw(draw->win[1], 8, 12, "%d", inst->total_cycle);    //отображает циклы в стате
+	mvwprintw(draw->win[1], 10, 16, "%d", inst->total_process); //отображает процессы
+	
+// usleep(100);
  }
+
+
+void show_players(t_mstruc *inst, t_draw *draw)
+{
+	int	h;
+	int	w;
+	int	i;
+	t_players *tmp;
+
+	h = 12;
+	w = 5;
+	i = 0;
+	tmp = inst->players;
+	wmove(draw->win[1], h, w);
+	while (i < inst->num_of_players)
+	{
+		wprintw(draw->win[1],"Player -%d :",tmp->pl_num);
+		wattron(draw->win[1], COLOR_PAIR(tmp->pl_num)); 
+		wprintw(draw->win[1]," %s", tmp->header->prog_name);
+		wattroff(draw->win[1], COLOR_PAIR(tmp->pl_num)); 
+		wmove(draw->win[1], ++h, w);
+		wprintw(draw->win[1],"	Last live :			%d",tmp->last_live);
+		wmove(draw->win[1], ++h, w);
+		wprintw(draw->win[1],"	Lives in current period : 	%d",tmp->live_flag);
+		h += 2;
+		wmove(draw->win[1], h, w);
+		tmp	= tmp->next;
+		i++;
+	}
+}
 
 void create_labels(t_draw *draw) 
 {
@@ -43,7 +75,7 @@ void create_labels(t_draw *draw)
 	wmove(draw->win[1], h + 3, w);
 	wprintw(draw->win[1],"CYCLE: 0");
 	wmove(draw->win[1], h + 5, w);
-	wprintw(draw->win[1],"Processes:");
+	wprintw(draw->win[1],"Processes: 0");
 }
 
 void	ft_destr_wins(t_draw *draw)
@@ -55,10 +87,10 @@ void	ft_destr_wins(t_draw *draw)
 
 void	init_colors()
 { 
-	init_pair(1, COLOR_BLACK, COLOR_GREEN);
-	init_pair(2, COLOR_BLACK, COLOR_BLUE);
-	init_pair(3, COLOR_BLACK, COLOR_RED);
-	init_pair(4, COLOR_BLACK, COLOR_MAGENTA);
+	init_pair(1, COLOR_GREEN, COLOR_BLACK);
+	init_pair(2, COLOR_BLUE, COLOR_BLACK);
+	init_pair(3, COLOR_RED, COLOR_BLACK);
+	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
 	init_pair(6, COLOR_BLACK, COLOR_WHITE);
 }
 

@@ -29,7 +29,7 @@ var_param.c vis.c
 
 OBJ = $(SRC:.c=.o)
 
-HEADERS = libft/libft.h corewar_vm.h libft/get_next_line.h op.h
+HEADERS = libft/libft.h corewar_vm.h libft/get_next_line.h op.h draw.h
 
 FLAGS = -Wall -lncurses
 
