@@ -122,10 +122,17 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 
 void	ft_core_war_viz(t_mstruc *inst, int live_flag)
 {
-	t_process	*lst;
+	t_process *lst;
+ 	t_draw *draw;
 
-	while (inst->total_cycle >= 0)
+  	draw = (t_draw *)malloc(sizeof(draw));
+  	init_wind(draw); //статические элементы  
+  	show_players(inst, draw);
+	while (inst->total_cycle != inst->dump_flag)
 	{
+		output_core(inst, draw);
+		wrefresh(draw->win[0]);
+   		wrefresh(draw->win[1]);
 		lst = inst->process;
 		if (lst == NULL)
 			return ;
@@ -137,7 +144,9 @@ void	ft_core_war_viz(t_mstruc *inst, int live_flag)
 		inst->total_cycle++;
 		if ((inst->total_cycle % inst->cycle_to_die) == 0)
 			live_flag++;
+		//sleep(3);
 	}
+	ft_destr_wins(draw);
 }
 
 void	ft_choose_one(t_mstruc *inst)

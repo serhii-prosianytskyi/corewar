@@ -20,6 +20,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
+# include "draw.h"
+# include <ncurses.h>
 # define DUMP	"-dump"
 # define NUM	"-n"
 # define MANY_CHAMP "Too many champions"
@@ -230,4 +232,7 @@ void 		ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
+/* graphics */
+void		show_players(t_mstruc *inst, t_draw *draw);
+void		output_core(t_mstruc *inst, t_draw *draw);
 #endif //COREWAR_VM_COREWAR_VM_H
