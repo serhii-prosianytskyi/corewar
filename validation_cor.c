@@ -50,13 +50,13 @@ char *ft_prog_comment(int fd, char *comment)
 	return (NULL);
 }
 
-unsigned char *ft_read_op(int fd, int size)
+ unsigned char *ft_read_op(int fd, int size)
 {
 	char *str;
 
-	str = (char *)malloc(sizeof(char) * (size + 2));
-	ft_bzero(str, (size + 2));
-	if (read(fd, str, (size + 2)) != size)
+	str = (char *)malloc(sizeof(char) * size);
+	ft_bzero(str, size);
+	if (read(fd, str, size) != size)
 	{
 		free(str);
 		return (NULL);

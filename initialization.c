@@ -88,6 +88,7 @@ t_mstruc *ft_init_mstruct(void)
 	inst = (t_mstruc *)malloc(sizeof(t_mstruc));
 	inst->bonus_flag = 0;
 	inst->dump_flag = -14570;
+	//inst->memory = (unsigned char *)malloc(sizeof(unsigned char) * MEM_SIZE);
 	ft_bzero(inst->memory, MEM_SIZE);
 	inst->num_of_players = 0;
 	inst->player_num[0] = 0;

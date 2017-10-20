@@ -25,18 +25,18 @@ operators/15_lfork.c operators/16_aff.c \
 process_tools.c op.c exec_of_comands.c vm_main.c core_war.c \
 decoding.c initialization.c list.c type_param.c valid_opcode.c \
 validation_argc.c validation_argc_2.c validation_cor.c \
-var_param.c graphics/vis.c
+var_param.c vis.c
 
 OBJ = $(SRC:.c=.o)
 
-HEADERS = libft/libft.h corewar_vm.h libft/get_next_line.h op.h graphics/draw.h
+HEADERS = libft/libft.h corewar_vm.h libft/get_next_line.h op.h
 
-FLAGS = -Wall 
+FLAGS = -Wall -lncurses
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) 
-	$(CC) -lcurses $(FLAGS) -o $(NAME) $(OBJ) $(LIBFT)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
 $(OBJ): %.o: %.c
 	$(CC) -c $(FLAGS) $< -o $@

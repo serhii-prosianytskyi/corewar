@@ -88,7 +88,6 @@ void	ft_copy_player(t_players *des, t_players *src)
 	i = -1;
 	while (++i <= COMMENT_LENGTH)
 		des->header->comment[i] = src->header->comment[i];
-	//des->opcode = ft_realloc(NULL, ft_strlen(src->opcode), src->opcode);
 	des->opcode = src->opcode;
 	des->pl_num = src->pl_num;
 	des->live_flag = src->live_flag;

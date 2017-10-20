@@ -12,7 +12,7 @@
 
 #include "corewar_vm.h"
 
-int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind)
+int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind, t_process *pr)
 {
 	int i;
 
@@ -84,6 +84,7 @@ int ft_validate_coding_byte(t_process *process)
 int ft_opcode(int pc, t_mstruc *inst, t_process *process)
 {
 	process->opcode->operation = inst->memory[pc];
+	process->operation = process->opcode->operation;
 	if (process->opcode->operation < 1 || process->opcode->operation > 16)
 	{
 		process->opcode->row_size += 1;
@@ -99,7 +100,7 @@ int ft_opcode(int pc, t_mstruc *inst, t_process *process)
 	}
 	process->opcode->num_param = op_tab[process->opcode->operation - 1].num_arguments;
 	ft_fill_param_size(process->opcode);
-	if (ft_fill_param(process->opcode, inst, &pc))
+	if (ft_fill_param(process->opcode, inst, &pc, process))
 		return (1);
 	return (0);
 }

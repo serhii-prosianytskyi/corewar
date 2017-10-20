@@ -90,7 +90,6 @@ int main(int argc, char **argv)
 	t_mstruc *inst;
 	char **params;
 	int i;
-	int j;
 
 	if (argc < 2)
 	{
@@ -99,15 +98,14 @@ int main(int argc, char **argv)
 	}
 	params = (char **)malloc(sizeof(char *) * (argc + 1));
 	i = 0;
-	j = argc;
-	while (--j > 0)
+	while (--argc > 0)
 	{
 		params[i] = ft_realloc(NULL, ft_strlen(argv[i + 1]), argv[i + 1]);
 		i++;
 	}
 	params[i] = NULL;
 	inst = ft_init_mstruct();
-	ft_validation_arg(argc, params, inst, 0);
+	ft_validation_arg(params, inst, -1);
 	ft_choose_one(inst);
 	ft_del_struct(inst);
 	return (0);

@@ -12,8 +12,8 @@
 
 #ifndef COREWAR_VM_COREWAR_VM_H
 # define COREWAR_VM_COREWAR_VM_H
+# include "draw.h"
 # include "libft/libft.h"
-#include "graphics/draw.h"
 # include "op.h"
 # include <stdlib.h>
 # include <fcntl.h>
@@ -113,6 +113,8 @@ typedef struct                 s_helper
 
 t_helper help;
 t_op    op_tab[17];
+//typedef void (*op_type)(t_mstruc *ms, t_process *pr, t_opcode *arg);
+//op_type *operator;
 
 void	ft_dell_mas(char **mas);
 void	*ft_lst_end(void *lst, int flag);
@@ -144,7 +146,7 @@ unsigned char *ft_read_op(int fd, int size);
 /*
 ** validation_argc.c
 */
-void	ft_validation_arg(int argc, char **params, t_mstruc *inst, int i);
+void	ft_validation_arg(char **params, t_mstruc *inst, int i);
 char	*ft_create_new_player(int i, char **params, t_mstruc *inst);
 int 	ft_file_extension(char *str);
 char	*ft_num_player(int *ind, char **params, t_mstruc *inst, int i);
@@ -172,7 +174,7 @@ void	ft_choose_one(t_mstruc *inst);
 int ft_opcode(int pc, t_mstruc *inst, t_process *process);
 int ft_validate_coding_byte(t_process *process);
 void ft_fill_param_size(t_opcode *op_lst);
-int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind);
+int	ft_fill_param(t_opcode *op_lst, t_mstruc *inst, int *ind, t_process *pr);
 
 /*
 ** type_param.c
@@ -191,14 +193,13 @@ int ft_second_param(t_opcode *op_lst, int num);
 int ft_first_param(t_opcode *op_lst, int num);
 
 /*
-** aslochen
+** askochen
 */
-size_t		get_pc(size_t pc);
-t_process	*empty_process(void);
+int			get_pc(int pc);
 t_process	*copy_process(t_process *rhs);
 void 		new_process(t_process *rpr, t_mstruc *ms, int pc);
 void 		delete_process(t_process *pr, t_mstruc *ms);
-void		value_to_memory(t_mstruc *ms, size_t pos, int val);
+void		value_to_memory(t_mstruc *ms, int pos, int val);
 
 void 		live_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ld_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
@@ -217,8 +218,9 @@ void 		lldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		lfork_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		aff_com(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
-void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
-void ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
-void ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
+//void 		init_operators();
+void 		ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
+void 		ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
 #endif //COREWAR_VM_COREWAR_VM_H

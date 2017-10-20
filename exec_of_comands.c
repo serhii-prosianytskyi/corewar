@@ -4,7 +4,7 @@ void ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
 	if (pr->operation >= 1 && pr->operation <= 10)
 		ft_execution_of_comands(ms, pr, arg);
-	else
+	 else
 		ft_execution_of_comands1(ms, pr, arg);
 }
 
@@ -47,3 +47,32 @@ void ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	else if (pr->operation == 16)
 		aff_com(ms, pr, arg);
 }
+
+/*void init_operators()
+{
+	operator = (op_type*)malloc(sizeof(op_type) * 16);
+	operator[0] = live_com;
+	operator[1] = ld_com;
+	operator[2] = st_com;
+	operator[3] = add_com;
+	operator[4] = sub_com;
+	operator[5] = and_com;
+	operator[6] = or_com;
+	operator[7] = xor_com;
+	operator[8] = zjmp_com;
+	operator[9] = ldi_com;
+	operator[10] = sti_com;
+	operator[11] = fork_com;
+	operator[12] = lld_com;
+	operator[13] = lldi_com;
+	operator[14] = lfork_com;
+	operator[15] = aff_com;
+}
+
+void execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg)
+{
+	operator[pr->operation](ms, pr, arg);
+}
+
+
+init_operators();*/

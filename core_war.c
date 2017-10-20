@@ -63,7 +63,6 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 {
 	int flag;
 
-	flag = 0;
 	if (live_flag && (inst->live_current_per >= NBR_LIVE ||
 		*live_flag == MAX_CHECKS))
 	{
@@ -80,7 +79,7 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 			process->opcode = ft_init_opcode();
 			if ((flag = ft_opcode(process->pc, inst, process)) == 0)
 				process->validation_flag = 1;
-			process->op_cycle = op_tab[process->opcode->operation].cycles;
+			process->op_cycle = op_tab[process->opcode->operation - 1].cycles;
 			if (flag == 2)
 				process->op_cycle = 0;
 		}
@@ -99,7 +98,7 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int *live_flag)
 	}
 }
 
-void	ft_core_war(t_mstruc *inst, int live_flag)
+void	ft_core_war_viz(t_mstruc *inst, int live_flag)
 {
 	t_process *lst;
  	t_draw *draw;
@@ -125,10 +124,10 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 			live_flag++;
 		//sleep(3);
 	}
-	endwin();
+	ft_destr_wins(draw);
 }
 
-void	ft_core_war_viz(t_mstruc *inst, int live_flag)
+void	ft_core_war(t_mstruc *inst, int live_flag)
 {
 	t_process	*lst;
 
@@ -155,7 +154,7 @@ void	ft_choose_one(t_mstruc *inst)
 	ft_create_process(inst);
 	ft_fill_opcode_mem(inst);
 	live_flag = -1;
-	if (inst->bonus_flag)
+	if (inst->bonus_flag == 1)
 		ft_core_war_viz(inst, live_flag);
 	else
 		ft_core_war(inst, live_flag);
