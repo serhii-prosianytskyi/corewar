@@ -20,26 +20,29 @@ int ft_first_param(t_opcode *op_lst, int num)
 		return (1);
 	else if ((num & 128) == 128)
 		return (help.label_size[op_lst->operation - 1]);
+	return (0);
 }
 
 int ft_second_param(t_opcode *op_lst, int num)
 {
 	if (((num & 48) == 48))
 		return (2);
-	if ((num & 16) == 16)
+	else if ((num & 16) == 16)
 		return (1);
 	else if ((num & 32) == 32)
 		return (help.label_size[op_lst->operation - 1]);
+	return (0);
 }
 
 int ft_third_param(t_opcode *op_lst, int num)
 {
 	if (((num & 12) == 12))
 		return (2);
-	if ((num & 4) == 4)
+	else if ((num & 4) == 4)
 		return (1);
 	else if ((num & 8) == 8)
 		return (help.label_size[op_lst->operation - 1]);
+	return (0);
 }
 
 int	ft_var_param(t_opcode *op_lst, int nam_arg)
@@ -48,9 +51,9 @@ int	ft_var_param(t_opcode *op_lst, int nam_arg)
 
 	if (nam_arg == 0)
 		rez = ft_first_param(op_lst, op_lst->cod_byte);
-	if (nam_arg == 1)
+	else if (nam_arg == 1)
 		rez = ft_second_param(op_lst, op_lst->cod_byte);
-	if (nam_arg == 2)
+	else
 		rez = ft_third_param(op_lst, op_lst->cod_byte);
 	return (rez);
 }

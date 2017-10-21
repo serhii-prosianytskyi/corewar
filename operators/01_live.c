@@ -13,4 +13,5 @@ void live_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	}
 	(ms->live_current_per)++;
 	(pr->live_flag)++;
+	pr->pc = pr->pc + pr->opcode->row_size;
 }

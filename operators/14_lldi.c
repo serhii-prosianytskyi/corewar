@@ -25,4 +25,5 @@ void lldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 			pr->carry = 1;
 		else
 			pr->carry = 0;
+	pr->pc = pr->pc + pr->opcode->row_size;
 }

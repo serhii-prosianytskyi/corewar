@@ -12,10 +12,8 @@
 
 #include "corewar_vm.h"
 
-void	ft_write_contestants(t_mstruc *inst, int i)
+void	ft_write_contestants(t_mstruc *inst, int i, char *str)
 {
-	char	*str;
-
 	write(1, "Introducing contestants...", 26);
 	write(1, "\n", 1);
 	i = -1;
@@ -27,7 +25,7 @@ void	ft_write_contestants(t_mstruc *inst, int i)
 			str = ft_itoa(inst->mas_player[i].pl_num);
 			write(1, str, ft_strlen(str));
 			free(str);
-			write(1, ", weighing", 10);
+			write(1, ", weighing ", 11);
 			str = ft_itoa(inst->mas_player[i].header->prog_size);
 			free(str);
 			write(1, str, ft_strlen(str));
@@ -41,4 +39,17 @@ void	ft_write_contestants(t_mstruc *inst, int i)
 		}
 		write(1, "\n", 1);
 	}
+}
+
+void	ft_write_winner(t_players *player)
+{
+	char *str;
+
+	write(1, "Contestant ", 11);
+	str = ft_itoa(player->pl_num);
+	write(1, str, ft_strlen(str));
+	free(str);
+	write(1, ", \"", 3);
+	write(1, player->header->prog_name, ft_strlen(player->header->prog_name));
+	write(1, "\", has won !\n", 13);
 }

@@ -77,6 +77,7 @@ t_players *ft_init_players(void)
 	player->pl_num = 0;
 	player->live_flag = 0;
 	player->last_live = 0;
+	player->prev = NULL;
 	player->next = NULL;
 	return (player);
 }

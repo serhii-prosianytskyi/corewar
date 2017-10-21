@@ -182,5 +182,6 @@ void	ft_validation_arg(char **params, t_mstruc *inst, int i)
 		ft_error_vm(MANY_CHAMP, inst, params, -1);
 	if ((fail = ft_move_to_mas(inst)) != NULL)
 		ft_error_vm(fail, inst, params, -1);
+	inst->players = ft_sort_players(inst->players);
 	ft_dell_mas(params);
 }

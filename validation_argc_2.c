@@ -75,7 +75,7 @@ int 	ft_check_repeat_num(t_mstruc *inst)
 	return (0);
 }
 
-void	ft_copy_player(t_players *des, t_players *src)
+/*void	ft_copy_player(t_players *des, t_players *src)
 {
 	int i;
 
@@ -92,6 +92,17 @@ void	ft_copy_player(t_players *des, t_players *src)
 	des->pl_num = src->pl_num;
 	des->live_flag = src->live_flag;
 	des->last_live = src->last_live;
+	des->next = NULL;
+}*/
+
+void	ft_copy_player(t_players *des, t_players *src)
+{
+	des->header = src->header;
+	des->opcode = src->opcode;
+	des->pl_num = src->pl_num;
+	des->live_flag = src->live_flag;
+	des->last_live = src->last_live;
+	des->prev = NULL;
 	des->next = NULL;
 }
 

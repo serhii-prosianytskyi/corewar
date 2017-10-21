@@ -70,6 +70,7 @@ typedef struct	s_players
 	int					pl_num;// номер гравця
 	int					live_flag;
 	long int			last_live;// необхідно для візуалізаціі
+	struct s_players	*prev;
 	struct s_players	*next;
 }				t_players;
 
@@ -89,6 +90,7 @@ typedef struct	s_mstruc
 	long int		total_cycle;// номер ітерації циклу (для візуалізації)
 	unsigned int	live_current_per;
 	unsigned int	live_last_per;
+	WINDOW			*gen_win;
 }				t_mstruc;
 
 typedef struct		s_op
@@ -120,9 +122,24 @@ t_op    op_tab[17];
 //typedef void (*op_type)(t_mstruc *ms, t_process *pr, t_opcode *arg);
 //op_type *operator;
 
+
+/*
+** vis.c
+*/
+void		show_players(t_mstruc *inst, t_draw *draw);
+void		output_core(t_mstruc *inst, t_draw *draw);
+void		ft_fill_gen_win(t_mstruc *inst, t_draw *draw);
+void		ft_print_in_gen(int pos, t_mstruc *inst, t_process *proc);
+
 void	ft_dell_mas(char **mas);
+void	ft_del_struct(t_mstruc *inst);
+
+/*
+** list.c
+*/
 void	*ft_lst_end(void *lst, int flag);
 int 	ft_lst_len(void *lst, int flag, int len);
+t_players *ft_sort_players(t_players *lst);
 
 /*
 ** initialization.c
@@ -164,13 +181,21 @@ void	ft_copy_player(t_players *des, t_players *src);
 int 	ft_check_repeat_num(t_mstruc *inst);
 void	ft_give_num(t_players *ptr, int i, int j, t_mstruc *inst);
 int 	ft_give_num_help(t_mstruc *inst);
+
 /*
 ** core_war.c
 */
+void	ft_core_war_viz(t_mstruc *inst, int live_flag);
+void	ft_choose_one(t_mstruc *inst);
+
+/*
+** validate_operation.c
+*/
+void	ft_check_flags(t_mstruc *inst);
 void	ft_core_war(t_mstruc *inst, int live_flag);
 void	ft_create_process(t_mstruc *inst);
-void	ft_check_flags(t_mstruc *inst);
-void	ft_choose_one(t_mstruc *inst);
+void	ft_fill_opcode_mem(t_mstruc *inst);
+void	ft_validate_opcode(t_process *process, t_mstruc *inst, int flag);
 
 /*
 ** valid_opcode.c
@@ -199,7 +224,8 @@ int ft_first_param(t_opcode *op_lst, int num);
 /*
 ** write_rez.c
 */
-void	ft_write_contestants(t_mstruc *inst, int i);
+void	ft_write_contestants(t_mstruc *inst, int i, char *str);
+void	ft_write_winner(t_players *player);
 
 /*
 ** askochen
@@ -232,7 +258,4 @@ void 		ft_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ft_execution_of_comands(t_mstruc *ms, t_process *pr, t_opcode *arg);
 void 		ft_execution_of_comands1(t_mstruc *ms, t_process *pr, t_opcode *arg);
 
-/* graphics */
-void		show_players(t_mstruc *inst, t_draw *draw);
-void		output_core(t_mstruc *inst, t_draw *draw);
 #endif //COREWAR_VM_COREWAR_VM_H

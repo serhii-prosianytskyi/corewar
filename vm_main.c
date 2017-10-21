@@ -107,6 +107,5 @@ int main(int argc, char **argv)
 	inst = ft_init_mstruct();
 	ft_validation_arg(params, inst, -1);
 	ft_choose_one(inst);
-	ft_del_struct(inst);
 	return (0);
 }

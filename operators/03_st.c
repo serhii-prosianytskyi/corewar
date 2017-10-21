@@ -13,5 +13,7 @@ void st_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	{
 		position = get_pc(pr->pc + arg->param[1] % IDX_MOD);
 		value_to_memory(ms, position, pr->reg[arg->param[0]]);
+		ft_print_in_gen(position, ms, pr);
 	}
+	pr->pc = pr->pc + pr->opcode->row_size;
 }

@@ -13,4 +13,5 @@ void add_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 		else
 			pr->carry = 0;
 	}
+	pr->pc = pr->pc + pr->opcode->row_size;
 }

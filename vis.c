@@ -4,30 +4,87 @@
 #include "corewar_vm.h"
 #include "draw.h"
 
-void		output_core(t_mstruc *inst, t_draw *draw)
+void		ft_print_in_gen(int pos, t_mstruc *inst, t_process *proc)
+{
+		int x;
+		int y;
+		int i;
+		int color;
+		t_players *tmp;
+
+		i = 0;
+		color = 1;
+		tmp = inst->players;
+		while (tmp != NULL && proc->reg[0] * (-1) != tmp->pl_num)
+		{
+			color++;
+			tmp = tmp->next;
+		}
+		wattron(inst->gen_win, COLOR_PAIR(color));
+		while(i < 4)
+		{
+			x = ((pos + i) % 64) * 3 + 3;
+			y = (pos + i) / 64 + 2;
+			mvwprintw(inst->gen_win, y++, x += 2,"%.2x", inst->memory[get_pc(pos + i++)]);
+		}
+		wattron(inst->gen_win, COLOR_PAIR(5));
+}
+
+void		ft_get_st_pair(t_mstruc *inst, t_draw *draw, int pos)
+{
+	t_process *proc;
+	t_players *plr;
+	int num;
+	int c;
+
+	proc = inst->process;
+	while (proc->next != NULL)
+		proc = proc->next;
+	plr = inst->players;
+	num = 5;
+	c = 1;
+	while (proc != NULL)
+	{
+		if (proc->pc == pos || (proc->pc < pos && (proc->pc + plr->header->prog_size) > pos))
+		{
+			num = c;
+			break ;
+		}
+		if ((proc->pc + plr->header->prog_size) > pos)
+			num = 5;
+		plr = plr->next;
+		proc = proc->prev;
+		c++;
+	}
+	wattron(inst->gen_win, COLOR_PAIR(num));
+}
+
+void		ft_fill_gen_win(t_mstruc *inst, t_draw *draw)
 {
 	int x;
 	int y;
 	int k;
 
 	k = 0;
-	y = 2;
-	wattron(draw->win[0], COLOR_PAIR(5)); 
-	for (int j = 0; j < 64; j++)
+	y = 1;
+	wattron(draw->win[1], COLOR_PAIR(5)); 
+	while (++y < 66)
 	{ 
 		x = 2;  
-		for (int i = 0; i < 64; i++)
+		while (x < 194)
 		{
-			mvwprintw(draw->win[0],y, x,"%.2x", inst->memory[k]);
-			k++;
+			ft_get_st_pair(inst, draw, k);
+			mvwprintw(inst->gen_win, y, x,"%.2x", inst->memory[k++]);
 			x += 3;
 		}
-		y++;
 	}
+	wrefresh(inst->gen_win);
+}
+
+void		output_core(t_mstruc *inst, t_draw *draw)
+{
 	mvwprintw(draw->win[1], 8, 12, "%d", inst->total_cycle);    //отображает циклы в стате
 	mvwprintw(draw->win[1], 10, 16, "%d", inst->total_process); //отображает процессы
-	
-// usleep(100);
  }
 
 
@@ -68,7 +125,6 @@ void create_labels(t_draw *draw)
 	getyx(draw->win[1], h, w);
 	h += 5;
 	w += 5;
-	init_pair(5, COLOR_WHITE, COLOR_BLACK);
 	wattron(draw->win[1], COLOR_PAIR(5)); 
 	wmove(draw->win[1], h, w);
 	wprintw(draw->win[1],"Cycles/second limit:");
@@ -86,7 +142,8 @@ void	ft_destr_wins(t_draw *draw)
 }
 
 void	init_colors()
-{ 
+{
+	init_pair(5, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_GREEN, COLOR_BLACK);
 	init_pair(2, COLOR_BLUE, COLOR_BLACK);
 	init_pair(3, COLOR_RED, COLOR_BLACK);
