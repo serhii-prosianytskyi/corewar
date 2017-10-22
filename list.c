@@ -67,41 +67,78 @@ void	*ft_lst_end(void *lst, int flag)
 t_players *ft_copy_player_s(t_players *lst)
 {
 	t_players *new;
+	int i;
 
 	new = ft_init_players();
-	free(new->header);
-	new->header = lst->header;
+	i = -1;
+	while (++i <= PROG_NAME_LENGTH)
+		new->header->prog_name[i] = lst->header->prog_name[i];
+	i = -1;
+	while (++i <= COMMENT_LENGTH)
+		new->header->comment[i] = lst->header->comment[i];
 	new->opcode = lst->opcode;
 	new->pl_num = lst->pl_num;
 	return (new);
 }
 
-void	*ft_sort_players_h(t_players *new, t_players *lst, int flag)
+void	*ft_sort_players_2(t_players *new, t_players *lst)
 {
-	if (flag == 1)
+	t_players *copy;
+
+	while (new)
 	{
-		while (new->next)
+		if (new->pl_num < lst->pl_num)
 		{
-			if (new->pl_num < lst->pl_num)
+			if (new->next)
 				new = new->next;
 			else
+			{
+				new->next = ft_copy_player_s(lst);
+				new->next->prev = new;
+				new->next->next = NULL;
 				break ;
+			}
 		}
-		new->next = ft_copy_player_s(lst);
-		new->next->prev = new;
-	}
-	else
-	{
-		while (new->prev)
+		else
 		{
-			if (new->pl_num < lst->pl_num)
-				new = new->prev;
-			else
-				break ;
+			copy = new->prev;
+			new->prev = ft_copy_player_s(lst);
+			new->prev->next = new;
+			new->prev->prev = copy;
+			copy->next = new->prev;
+			break ;
 		}
-		new->prev = ft_copy_player_s(lst);
-		new->prev->next = new;
 	}
+}
+
+void	*ft_sort_players_1(t_players *new, t_players *lst)
+{
+	t_players *copy;
+
+		while (new)
+		{
+			if (new->pl_num > lst->pl_num)
+			{
+				if (new->prev)
+					new = new->prev;
+				else
+				{
+					new->prev = ft_copy_player_s(lst);
+					new->prev->next = new;
+					new->prev->prev = NULL;
+					break ;
+				}
+			}
+			else
+			{
+				copy = new->next;
+				new->next = ft_copy_player_s(lst);
+				new->next->prev = new;
+				new->next->next = copy;
+				copy->prev = new->next;
+				break ;
+			}
+		}
 }
 
 t_players *ft_sort_players(t_players *lst)
@@ -115,9 +152,9 @@ t_players *ft_sort_players(t_players *lst)
 	while (lst)
 	{
 		if (new->pl_num < lst->pl_num)
-			ft_sort_players_h(new, lst, 1);
+			ft_sort_players_2(new, lst);
 		else
-			ft_sort_players_h(new, lst, 2);
+			ft_sort_players_1(new, lst);
 		lst = lst->next;
 	}
 	while (new->prev)
@@ -125,6 +162,7 @@ t_players *ft_sort_players(t_players *lst)
 	while (copy_lst)
 	{
 		lst = copy_lst;
+		free(lst->header);
 		copy_lst = copy_lst->next;
 		free(lst);
 	}
