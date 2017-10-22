@@ -152,6 +152,7 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int flag)
 		process->op_cycle = op_tab[process->opcode->operation - 1].cycles -1;
 		if (flag == 2)
 		{
+			ft_print_corr(inst, process->pc, (process->pc + 1) % MEM_SIZE);
 			process->pc = (process->pc + 1) % MEM_SIZE;
 			process->validation_flag = 0;
 			process->op_cycle = -1;
@@ -167,7 +168,10 @@ void	ft_validate_opcode(t_process *process, t_mstruc *inst, int flag)
 		if (process->validation_flag)
 			ft_comands(inst, process, process->opcode);
 		else
-			process->pc += process->opcode->row_size;
+		{
+			process->pc = (process->pc + process->opcode->row_size) % MEM_SIZE;
+			ft_print_corr(inst, process->pc, (process->pc + process->opcode->row_size) % MEM_SIZE);
+		}
 		process->validation_flag = 0;
 		process->op_cycle = -1;
 		if (process->opcode)

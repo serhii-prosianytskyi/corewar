@@ -17,8 +17,7 @@ void    ft_core_war_viz(t_mstruc *inst, int live_flag)
 	t_process *lst;
 	t_draw *draw;
 
-	draw = (t_draw *)malloc(sizeof(draw));
-	init_wind(draw);
+	draw = init_wind();
 	inst->gen_win = draw->win[0];
 	ft_fill_gen_win(inst, draw);
 	show_players(inst, draw);
@@ -30,7 +29,6 @@ void    ft_core_war_viz(t_mstruc *inst, int live_flag)
 		lst = inst->process;
 		if (lst == NULL)
 		{
-
 			ft_destr_wins(draw);
 			return ;
 		}
@@ -42,7 +40,7 @@ void    ft_core_war_viz(t_mstruc *inst, int live_flag)
 		inst->total_cycle++;
 		if ((inst->total_cycle % inst->cycle_to_die) == 0)
 			live_flag++;
-		usleep(10000);
+		usleep(100000);
 	}
 }
 

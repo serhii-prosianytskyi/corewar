@@ -22,6 +22,7 @@ void sti_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	sum = get_pc(pr->pc + sum);
 	value_to_memory(ms, sum, pr->reg[arg->param[0] - 1]);
 	ft_print_in_gen(sum, ms, pr);
-	pr->pc = pr->pc + pr->opcode->row_size;
+	ft_print_corr(ms, pr->pc, pr->pc + pr->opcode->row_size);
+	pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 
 }

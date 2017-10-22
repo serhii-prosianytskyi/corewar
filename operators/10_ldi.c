@@ -21,5 +21,6 @@ void ldi_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 	sum = (first + second) % IDX_MOD;
 	sum = get_pc(pr->pc + sum);
 	pr->reg[arg->param[2]] = sum;
-	pr->pc = pr->pc + pr->opcode->row_size;
+	ft_print_corr(ms, pr->pc, (pr->pc + pr->opcode->row_size) % MEM_SIZE);
+	pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 }

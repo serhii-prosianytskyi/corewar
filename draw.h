@@ -11,6 +11,7 @@ typedef struct	s_draw
 	WINDOW *win[3];
 }				t_draw;
 
-void	init_wind(t_draw *draw);
+t_draw	*init_wind(void);
 void	ft_destr_wins(t_draw *draw);
+
 #endif

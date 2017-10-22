@@ -15,5 +15,6 @@ void st_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 		value_to_memory(ms, position, pr->reg[arg->param[0]]);
 		ft_print_in_gen(position, ms, pr);
 	}
-	pr->pc = pr->pc + pr->opcode->row_size;
+	ft_print_corr(ms, pr->pc, (pr->pc + pr->opcode->row_size) % MEM_SIZE);
+	pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 }

@@ -79,6 +79,7 @@ typedef struct	s_mstruc
 	int				bonus_flag;//якщо не 0 запускаємо dspefkspfws.
 	long int		dump_flag;
 	unsigned char	memory[MEM_SIZE];//память
+	short int       col_map[MEM_SIZE];
 	int				num_of_players; //кількість гравців
 	int 			player_num[MAX_PLAYERS];
 	t_players		*players;

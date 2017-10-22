@@ -18,12 +18,14 @@ void and_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 		pr->reg[arg->param[2]] = arg->param[0] & arg->param[1];
 	else
 	{
-		pr->pc = pr->pc + pr->opcode->row_size;
+		ft_print_corr(ms, pr->pc, (pr->pc + pr->opcode->row_size) % MEM_SIZE);
+		pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 		return ;
 	}
 	if (pr->reg[arg->param[2]] == 0)
 		pr->carry = 1;
 	else
 		pr->carry = 0;
-	pr->pc = pr->pc + pr->opcode->row_size;
+	ft_print_corr(ms, pr->pc, (pr->pc + pr->opcode->row_size) % MEM_SIZE);
+	pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 }
