@@ -131,6 +131,7 @@ void		show_players(t_mstruc *inst, t_draw *draw);
 void		output_core(t_mstruc *inst, t_draw *draw);
 void		ft_fill_gen_win(t_mstruc *inst, t_draw *draw);
 void		ft_print_in_gen(int pos, t_mstruc *inst, t_process *proc);
+void 	ft_print_corr(t_mstruc *inst, int pre, int now);
 
 void	ft_dell_mas(char **mas);
 void	ft_del_struct(t_mstruc *inst);
@@ -192,6 +193,8 @@ void	ft_choose_one(t_mstruc *inst);
 /*
 ** validate_operation.c
 */
+void	ft_winner(t_mstruc *inst);
+void	ft_cycle_to_die(t_process *lst, t_mstruc *inst, int *live_flag);
 void	ft_check_flags(t_mstruc *inst);
 void	ft_core_war(t_mstruc *inst, int live_flag);
 void	ft_create_process(t_mstruc *inst);

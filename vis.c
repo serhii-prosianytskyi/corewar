@@ -6,17 +6,18 @@
 
 void	init_colors()
 {
+	init_color(COLOR_YELLOW, 300, 300, 300);
 	init_pair(5, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_GREEN, COLOR_BLACK);
-	init_pair(2, COLOR_BLUE, COLOR_BLACK);
+	init_pair(2, COLOR_CYAN, COLOR_BLACK);
 	init_pair(3, COLOR_RED, COLOR_BLACK);
 	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
 	init_pair(6, COLOR_BLACK, COLOR_WHITE);
 	init_pair(50, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(10, COLOR_BLACK, COLOR_GREEN);
-	init_pair(20, COLOR_BLACK, COLOR_BLUE);
-	init_pair(30, COLOR_BLACK, COLOR_RED);
-	init_pair(40, COLOR_BLACK, COLOR_MAGENTA);
+	init_pair(10, COLOR_WHITE, COLOR_GREEN);
+	init_pair(20, COLOR_WHITE, COLOR_BLUE);
+	init_pair(30, COLOR_WHITE, COLOR_RED);
+	init_pair(40, COLOR_WHITE, COLOR_MAGENTA);
 }
 
 void		ft_print_in_gen(int pos, t_mstruc *inst, t_process *proc)

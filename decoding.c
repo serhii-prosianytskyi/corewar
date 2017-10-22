@@ -46,8 +46,10 @@ short ft_ushort(int ind, char *str)
 	unsigned short tmp;
 	char line[2];
 
-	line[0] = str[ind++];
-	line[1] = str[ind];
+	i = ind % MEM_SIZE;  
+	line[0] = str[i];
+	i = (i + 1) % MEM_SIZE;
+	line[1] = str[i];
 	i = 0;
 	rez = 0;
 	while (i < 2)
@@ -68,10 +70,14 @@ int ft_uint(int ind, char *str)
 	unsigned int tmp;
 	char line[4];
 
-	line[0] = str[ind++];
-	line[1] = str[ind++];
-	line[2] = str[ind++];
-	line[3] = str[ind];
+	i = ind % MEM_SIZE;
+	line[0] = str[i];
+	i = (i + 1) % MEM_SIZE;
+	line[1] = str[i];
+	i = (i + 1) % MEM_SIZE;
+	line[2] = str[i];
+	i = (i + 1) % MEM_SIZE;
+	line[3] = str[i];
 	i = -1;
 	rez = 0;
 	while (++i < 4)

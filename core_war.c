@@ -30,17 +30,17 @@ void    ft_core_war_viz(t_mstruc *inst, int live_flag)
 		if (lst == NULL)
 		{
 			ft_destr_wins(draw);
-			return ;
+			ft_winner(inst);
 		}
 		while (lst)
 		{
-			ft_validate_opcode(lst, inst, &live_flag);
+			ft_validate_opcode(lst, inst, 0);
 			lst = lst->next;
 		}
 		inst->total_cycle++;
 		if ((inst->total_cycle % inst->cycle_to_die) == 0)
-			live_flag++;
-		usleep(100000);
+			ft_cycle_to_die(inst->process, inst, &live_flag);
+		usleep(1000);
 	}
 }
 
@@ -50,6 +50,7 @@ void	ft_choose_one(t_mstruc *inst)
 
 	ft_create_process(inst);
 	ft_fill_opcode_mem(inst);
+	inst->total_process = inst->num_of_players;
 	live_flag = 0;
 	if (inst->bonus_flag)
 		ft_core_war_viz(inst, live_flag);

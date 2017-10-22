@@ -115,7 +115,9 @@ void	ft_winner(t_mstruc *inst)
 			winner = lst;
 		lst = lst->next;
 	}
-	ft_write_winner(winner);
+	if (inst->bonus_flag == 0)
+		ft_write_winner(winner);
+	// else
 	ft_del_struct(inst);
 	exit(0);
 }
@@ -189,8 +191,6 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 	ft_write_contestants(inst, -1, NULL);
 	while (inst->total_cycle != inst->dump_flag)
 	{
-		if (inst->total_cycle == 49)
- 			write(1, "1", 1);
 		lst = inst->process;
 		if (lst == NULL)
 			ft_winner(inst);

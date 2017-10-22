@@ -3,13 +3,21 @@
 void live_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
 	int player;
+	t_players *lst;
 
+	lst = ms->players;
 	player = arg->param[0] * -1;
-	if (player > 0 && player <= ms->num_of_players)
+	if (player > 0 && player <= INT_MAX)
 	{
-		ms->winner = player;
-		ms->players[player - 1].last_live = ms->total_cycle;
-		(ms->players[player - 1].live_flag)++;
+		while (lst)
+		{
+			if (lst->pl_num == player)
+			{
+				lst->live_flag++;
+				lst->last_live = ms->total_cycle;
+			}
+			lst = lst->next;
+		}
 	}
 	(ms->live_current_per)++;
 	(pr->live_flag)++;
