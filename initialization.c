@@ -52,6 +52,7 @@ t_process *ft_init_process(void)
 	int 		i;
 
 	process = (t_process *)malloc(sizeof(t_process));
+	process->number = 0;
 	process->validation_flag = 0;
 	process->operation = 0;
 	process->op_cycle = -1;

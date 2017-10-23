@@ -12,32 +12,29 @@
 
 #include "corewar_vm.h"
 
-void	ft_write_contestants(t_mstruc *inst, int i, char *str)
+void	ft_write_contestants(int i, char *str, t_players *pl)
 {
 	write(1, "Introducing contestants...", 26);
 	write(1, "\n", 1);
-	i = -1;
-	while (++i < MAX_PLAYERS)
+	while (pl)
 	{
-		if (inst->mas_player[i].pl_num)
-		{
-			write(1, "* Player", 8);
-			str = ft_itoa(inst->mas_player[i].pl_num);
-			write(1, str, ft_strlen(str));
-			free(str);
-			write(1, ", weighing ", 11);
-			str = ft_itoa(inst->mas_player[i].header->prog_size);
-			free(str);
-			write(1, str, ft_strlen(str));
-			write(1, " bytes, \"", 9);
-			write(1, inst->mas_player[i].header->prog_name,
-				ft_strlen(inst->mas_player[i].header->prog_name));
-			write(1, "\" (\"", 4);
-			write(1, inst->mas_player[i].header->comment,
-				  ft_strlen(inst->mas_player[i].header->comment));
-			write(1, "\") !", 4);
-		}
+		write(1, "* Player ", 9);
+		str = ft_itoa(pl->pl_num);
+		write(1, str, ft_strlen(str));
+		free(str);
+		write(1, ", weighing ", 11);
+		str = ft_itoa(pl->header->prog_size);
+		free(str);
+		write(1, str, ft_strlen(str));
+		write(1, " bytes, \"", 9);
+		write(1, pl->header->prog_name,
+			  ft_strlen(pl->header->prog_name));
+		write(1, "\" (\"", 4);
+		write(1, pl->header->comment,
+			  ft_strlen(pl->header->comment));
+		write(1, "\") !", 4);
 		write(1, "\n", 1);
+		pl = pl->next;
 	}
 }
 

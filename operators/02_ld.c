@@ -2,22 +2,14 @@
 
 void ld_com(t_mstruc *ms, t_process *pr, t_opcode *arg)
 {
-	int ind;
-
-	if (arg->type_param[0] == T_DIR)
+	if (arg->param[1] > 0 && arg->param[1] <= REG_NUMBER)
 	{
-		pr->reg[arg->param[1] - 1] = arg->param[0];	
-	}
-	else
-	{
-		ind = ((arg->param[0] % IDX_MOD) + pr->pc) % MEM_SIZE;
-		pr->reg[arg->param[1] - 1] = ft_uint(ind, (char *)ms->memory);
-	}
-	
-	if (pr->reg[arg->param[1] - 1] == 0)
+		pr->reg[arg->param[1]] = arg->param[0] % IDX_MOD;
+		if (pr->reg[arg->param[1]] == 0)
 			pr->carry = 1;
-	else
-		pr->carry = 0;
+		else
+			pr->carry = 0;
+	}
 	ft_print_corr(ms, pr->pc, (pr->pc + pr->opcode->row_size) % MEM_SIZE);
 	pr->pc = (pr->pc + pr->opcode->row_size) % MEM_SIZE;
 }

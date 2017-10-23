@@ -76,6 +76,8 @@ t_players *ft_copy_player_s(t_players *lst)
 	i = -1;
 	while (++i <= COMMENT_LENGTH)
 		new->header->comment[i] = lst->header->comment[i];
+	new->header->prog_size = lst->header->prog_size;
+	new->header->magic = lst->header->magic;
 	new->opcode = lst->opcode;
 	new->pl_num = lst->pl_num;
 	return (new);

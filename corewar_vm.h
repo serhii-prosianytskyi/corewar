@@ -51,6 +51,7 @@ typedef struct s_opcode
 
 typedef struct	s_process
 {
+	int 				number;
 	int					validation_flag;
 	int 				operation;
 	int 				op_cycle;
@@ -135,6 +136,7 @@ void 	ft_print_corr(t_mstruc *inst, int pre, int now);
 
 void	ft_dell_mas(char **mas);
 void	ft_del_struct(t_mstruc *inst);
+unsigned int ft_key_processing(t_draw *draw, unsigned int sleep);
 
 /*
 ** list.c
@@ -228,7 +230,7 @@ int ft_first_param(t_opcode *op_lst, int num);
 /*
 ** write_rez.c
 */
-void	ft_write_contestants(t_mstruc *inst, int i, char *str);
+void	ft_write_contestants(int i, char *str, t_players *pl);
 void	ft_write_winner(t_players *player);
 
 /*

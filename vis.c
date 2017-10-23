@@ -110,7 +110,6 @@ void		ft_fill_gen_win(t_mstruc *inst, t_draw *draw)
 
 	k = 0;
 	y = 1;
-//	wattron(draw->win[1], COLOR_PAIR(5)); 
 	while (++y < 66)
 	{ 
 		x = 2;  
@@ -125,12 +124,87 @@ void		ft_fill_gen_win(t_mstruc *inst, t_draw *draw)
 	wrefresh(inst->gen_win);
 }
 
+void	show_stat(t_mstruc *inst, t_draw *draw)
+{
+	int			new_live;
+	int			i;
+	t_players	*tmp;
+
+	tmp = inst->players;
+	wmove(draw->win[1], 32, 6);
+	i = -1;
+	while (++i < inst->num_of_players)
+	{
+		if (inst->live_current_per / 36 > 0)
+		{
+			new_live = tmp->live_flag /(inst->live_current_per / 36);
+			wattron(draw->win[1], COLOR_PAIR(tmp->pl_num * 10));
+			while (new_live--)
+				wprintw(draw->win[1], "|");
+			wattroff(draw->win[1], COLOR_PAIR(5));
+			tmp = tmp->next;
+		}
+	}
+	//sleep(200);
+}
+
 void		output_core(t_mstruc *inst, t_draw *draw)
 {
+	t_players *tmp;
+	int h;
+
+	h = 13;
+	tmp = inst->players;
 	mvwprintw(draw->win[1], 8, 12, "%d", inst->total_cycle);    //отображает циклы в стате
 	mvwprintw(draw->win[1], 10, 16, "%d", inst->total_process); //отображает процессы
- }
+	while (tmp)
+	{
+		mvwprintw(draw->win[1], h++, 38, "%d", tmp->last_live);
+		mvwprintw(draw->win[1], h, 38, "%d", tmp->live_flag);
+		h += 3;
+		tmp = tmp->next;
+	}
+//	if (inst->live_current_per > 0)	
+ 		show_stat(inst, draw);
+}
 
+unsigned int ft_key_processing(t_draw *draw, unsigned int sleep)
+{
+	int ch;
+	int rep_ch;
+
+	wattron(draw->win[0], COLOR_PAIR(5)); 
+	ch = wgetch(draw->win[0]);
+	rep_ch = 0;
+	while (ch == ' ' && rep_ch != ' ')
+	{
+		mvwprintw(draw->win[1], 3, 5, "PAUSE");
+		rep_ch = wgetch(draw->win[0]);
+		if (rep_ch == ' ')
+			mvwprintw(draw->win[1], 3, 5, "START");	
+		if (rep_ch == KEY_DOWN)
+			sleep += 1000;
+		if (rep_ch == KEY_UP && sleep != 0)
+			sleep -= 1000;
+		if (rep_ch == 'q' || rep_ch == 'Q')
+			{
+				ft_destr_wins(draw);
+				exit(0);
+			}
+	}
+	if (ch == KEY_DOWN)
+		sleep += 1000;
+	if (ch == KEY_UP && sleep != 0)
+		sleep -= 1000;
+	if (sleep > 1000000)
+		sleep = 1000000;
+	if (ch == 'q' || ch == 'Q')
+		{
+			ft_destr_wins(draw);
+			exit(0);
+		}
+	return (sleep);
+}
 
 void show_players(t_mstruc *inst, t_draw *draw)
 {
@@ -151,9 +225,9 @@ void show_players(t_mstruc *inst, t_draw *draw)
 		wprintw(draw->win[1]," %s", tmp->header->prog_name);
 		wattroff(draw->win[1], COLOR_PAIR(tmp->pl_num)); 
 		wmove(draw->win[1], ++h, w);
-		wprintw(draw->win[1],"	Last live :			%d",tmp->last_live);
+		wprintw(draw->win[1],"	Last live :			");
 		wmove(draw->win[1], ++h, w);
-		wprintw(draw->win[1],"	Lives in current period : 	%d",tmp->live_flag);
+		wprintw(draw->win[1],"	Lives in current period :");
 		h += 2;
 		wmove(draw->win[1], h, w);
 		tmp	= tmp->next;
@@ -170,12 +244,20 @@ void create_labels(t_draw *draw)
 	h += 5;
 	w += 5;
 	wattron(draw->win[1], COLOR_PAIR(5)); 
-	wmove(draw->win[1], h, w);
-	wprintw(draw->win[1],"Cycles/second limit:");
-	wmove(draw->win[1], h + 3, w);
-	wprintw(draw->win[1],"CYCLE: 0");
-	wmove(draw->win[1], h + 5, w);
-	wprintw(draw->win[1],"Processes: 0");
+	mvwprintw(draw->win[1], 3, 5, "START");
+	mvwprintw(draw->win[1], h, w, "Cycles/second limit:");
+	mvwprintw(draw->win[1], h + 3, w, "CYCLE: 0");
+	mvwprintw(draw->win[1], h + 5, w, "Processes: 0");
+	h = 30;
+	mvwprintw(draw->win[1], h, w,"Live for current period :");
+	mvwprintw(draw->win[1], h + 2, w, "|                                    |");
+	mvwprintw(draw->win[1], h + 4, w, "Live for last period :");
+	mvwprintw(draw->win[1], h + 6, w, "|                                    |");
+	mvwprintw(draw->win[1], h + 8, w,  "CYCLE_TO_DIE :    %d", CYCLE_TO_DIE);
+	mvwprintw(draw->win[1], h + 10, w, "CYCLE_DELTA :     %d", CYCLE_DELTA);
+	mvwprintw(draw->win[1], h + 12, w, "NBR_LIVE :        %d", NBR_LIVE);
+	mvwprintw(draw->win[1], h + 14, w, "MAX_CHECKS :      %d", MAX_CHECKS);
+		
 }
 
 void	ft_destr_wins(t_draw *draw)
@@ -190,20 +272,21 @@ t_draw	*init_wind(void)
 	t_draw *draw;
 
 	initscr();
-	cbreak();
 	draw = (t_draw *)malloc(sizeof(t_draw));
 	start_color();
 	init_colors();
-	draw->win[0] = newwin(68, 195, 0, 0);   //главное окно с памятью
-	draw->win[1] = newwin(68, 70, 0, 196); //окно с статой
-	// draw->win[2] = newwin(12,64, 196, 55); // liza 
+	noecho();
+	curs_set(0);
+	draw->win[0] = newwin(68, 195, 0, 0);
+	draw->win[1] = newwin(68, 70, 0, 196);
+	nodelay(draw->win[0], TRUE);
+	keypad(draw->win[0], TRUE);
 	wattron(draw->win[0], COLOR_PAIR(6)); 
 	wborder(draw->win[0], ' ', ' ',' ' ,' ', ' ',' ',' ',' ');
 	wattron(draw->win[1], COLOR_PAIR(6)); 
 	wborder(draw->win[1], ' ', ' ',' ' ,' ', ' ',' ',' ',' ');
 	wrefresh(draw->win[0]);
 	wrefresh(draw->win[1]);
-	//box(draw->win[2], 0, 0);
 	create_labels(draw);
 	return (draw);
 }

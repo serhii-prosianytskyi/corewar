@@ -14,22 +14,24 @@
 
 void	ft_create_process(t_mstruc *inst)
 {
-	int i;
 	t_process *process_lst;
+	t_players *players_lst;
 
 	process_lst = ft_init_process();
-	i = -1;
-	while (++i < inst->num_of_players)
+	players_lst = inst->players;
+	while (players_lst)
 	{
-		process_lst->reg[0] = inst->mas_player[i].pl_num * -1;
+		process_lst->reg[0] = players_lst->pl_num * -1;
+		process_lst->number = players_lst->pl_num;
 		process_lst->pc = MEM_SIZE / inst->num_of_players *
-						  (inst->mas_player[i].pl_num - 1);
-		if ((i + 1) < inst->num_of_players)
+						  (players_lst->pl_num - 1);
+		if (players_lst->next)
 		{
 			process_lst->prev = ft_init_process();
 			process_lst->prev->next = process_lst;
 			process_lst = process_lst->prev;
 		}
+		players_lst = players_lst->next;
 	}
 	inst->process = process_lst;
 }
@@ -51,7 +53,7 @@ void	ft_fill_opcode_mem(t_mstruc *inst)
 	while (++i < inst->num_of_players)
 	{
 		ind = MEM_SIZE / inst->num_of_players *
-			  (inst->mas_player[i].pl_num - 1);
+			  (lst->pl_num - 1);
 		j = -1;
 		while (++j < lst->header->prog_size)
 		{
@@ -117,7 +119,7 @@ void	ft_winner(t_mstruc *inst)
 	}
 	if (inst->bonus_flag == 0)
 		ft_write_winner(winner);
-	// else
+	//else
 	ft_del_struct(inst);
 	exit(0);
 }
@@ -188,7 +190,7 @@ void	ft_core_war(t_mstruc *inst, int live_flag)
 	t_process *lst;
 
 	//ft_check_flags(inst);
-	ft_write_contestants(inst, -1, NULL);
+	ft_write_contestants(-1, NULL, inst->players);
 	while (inst->total_cycle != inst->dump_flag)
 	{
 		lst = inst->process;

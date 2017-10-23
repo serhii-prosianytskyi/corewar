@@ -19,6 +19,7 @@ t_process	*copy_process(t_process *rhs)
 
 	i = 0;
 	pr = ft_init_process();
+	pr->number = rhs->number;
 	pr->pc = rhs->pc;
 	pr->carry = rhs->carry;
 	pr->prev = NULL;
