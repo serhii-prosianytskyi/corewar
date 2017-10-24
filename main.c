@@ -19,7 +19,7 @@ void			ft_error(char *str, int i)
 	{
 		ft_putstr(" in line: ");
 		ft_putstr(ft_itoa(i));
-		ft_putstr("\n");
+		ft_putstr("!\n");
 	}
 	exit(1);
 }
@@ -43,15 +43,15 @@ int				main(int argc, char **argv)
 	t_to_compile	*m_s;
 
 	if (argc != 2)
-		ft_error("Bag number of argument", -1);
+		ft_error("Bad number of argument!", -1);
 	m_s = init_main_struct();
 	m_s->file_name = check_file_name(argv[1]);
 	if ((fd = open(argv[1], O_RDONLY, 0)) == -1)
-		ft_error("Can't open file", -1);
+		ft_error("Can't open file!", -1);
 	list = read_file_to_list(fd);
 	m_s = pars_file(list, m_s);
 	asm_main(m_s);
-	ft_putstr("Writing output program");
+	ft_putstr("Writing output program!");
 	ft_putstr("\n");
 	return (0);
 }

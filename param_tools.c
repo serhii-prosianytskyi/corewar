@@ -81,7 +81,7 @@ void		check_cur_param(char **split, int index, int *it, t_label_list **ll)
 	while (i < num)
 	{
 		if (word_counter(split[i]) != 1)
-			ft_error("Syntax error: Bad argument 11111", *it);
+			ft_error("Syntax error: Bad argument ", *it);
 		str = remove_whitespace(split[i], get_param_len(split[i]));
 		temp = g_op_tab[index].arguments_types[i];
 		if (((temp & 1) == 1) && (is_reg(str) == 1))
@@ -91,7 +91,7 @@ void		check_cur_param(char **split, int index, int *it, t_label_list **ll)
 		else if (((temp & 4) == 4) && (is_indir(str, ll, it) == 1))
 			++i;
 		else
-			ft_error("Syntax error: Bad argument 2222", *it);
+			ft_error("Syntax error: Bad argument ", *it);
 		free(str);
 	}
 }

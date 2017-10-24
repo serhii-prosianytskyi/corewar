@@ -53,8 +53,11 @@ void	ft_reg(t_code *inst, int num)
 		inst->coding_byte += 4;
 	i = 0;
 	str = NULL;
-	while (inst->params[num][++i] != ',' && inst->params[num][i] != '\0')
+	while (inst->params[num][i] != ',' && inst->params[num][i] != '\0')
+	{
 		str = ft_realloc(str, 1, &inst->params[num][i]);
+		i++;
+	}
 	inst->par[num] = (unsigned int)ft_atoi(str);
 	free(str);
 }
@@ -71,7 +74,7 @@ void	ft_dir(t_code *inst, int num)
 		inst->coding_byte += 32;
 	else if (num == 2 && inst->coding_byte_flag)
 		inst->coding_byte += 8;
-	i = 0;
+	i = -1;
 	str = NULL;
 	if (inst->params[num][1] != ':')
 	{
@@ -99,7 +102,7 @@ void	ft_ind(t_code *inst, int num)
 		inst->coding_byte += 48;
 	else if (num == 2 && inst->coding_byte_flag)
 		inst->coding_byte += 12;
-	i = 0;
+	i = -1;
 	str = NULL;
 	if (inst->params[num][1] != ':')
 	{

@@ -69,7 +69,7 @@ char		*get_label(char *str, int *i)
 	if (temp == NULL)
 		return (NULL);
 	if (iter == temp)
-		ft_error("Syntax error ", *i);
+		ft_error("Syntax error: no label  ", *i);
 	while (iter != temp)
 	{
 		if (is_label_char(*iter) == 0)
@@ -93,7 +93,7 @@ int			get_comand(char *str, int *it)
 		if (ft_strncmp(str, g_op_tab[i].comand_name, len) == 0)
 		{
 			if (ft_isalpha(str[len]) || str[len] == ':' || ft_isdigit(str[len]))
-				ft_error("Syntax error in comand name", *it);
+				ft_error("Syntax error in comand's name", *it);
 			return (i);
 		}
 		--i;
@@ -111,7 +111,7 @@ void		check_params(char *str, int index, int *it, t_label_list **ll)
 	new = get_new_param(str);
 	split = param_split(new, ',');
 	if (split == NULL)
-		ft_error("no parameters ", *it);
+		ft_error("Syntax error: No parameters ", *it);
 	num = get_param_num(split);
 	if (num != g_op_tab[index].num_arguments)
 		ft_error("Syntax error: Wrong number of arguments ", *it);

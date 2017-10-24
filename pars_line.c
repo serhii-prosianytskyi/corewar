@@ -43,7 +43,7 @@ t_to_compile	*pars_file(t_new_list *list, t_to_compile *main_struct)
 		else if (ft_strstr(list->line, ".comment") != NULL)
 			list = pars_comment(list, main_struct, &counter);
 		else
-			ft_error("Syntax error ", counter);
+			ft_error("Syntax error in comment ", counter);
 	}
 	pars_code(list, main_struct, &counter);
 	if (main_struct->code == NULL)
@@ -63,7 +63,7 @@ t_new_list		*pars_name(t_new_list *list, t_to_compile *main_struct, int *i)
 		ft_error("Syntax error: No name!", *i);
 	str = ignore_white_space(list->line);
 	if (ft_strncmp(str, ".name", 5) != 0)
-		ft_error("Sintax error .name", *i);
+		ft_error("Sintax error: .name ", *i);
 	str = str + 5;
 	str = ignore_white_space(str);
 	if (*str != '"')
@@ -86,7 +86,7 @@ t_new_list		*pars_comment(t_new_list *l, t_to_compile *main_struct, int *i)
 		ft_error("Syntax error: No comment", *i);
 	str = ignore_white_space(l->line);
 	if (ft_strncmp(str, ".comment", 8) != 0)
-		ft_error("Syntax error: .comment", *i);
+		ft_error("Syntax error: in .comment", *i);
 	str = str + 8;
 	str = ignore_white_space(str);
 	if (*str != '"')
@@ -112,7 +112,7 @@ t_new_list		*ft_get_string(t_new_list *list, char *s, char **m_s, int *i)
 		*i = *i + 1;
 	}
 	if (is_empty_line(temp + 1) == 0)
-		ft_error("Syntax error", *i);
+		ft_error("Syntax error ", *i);
 	str = ft_strnew(temp - s);
 	str = ft_strncpy(str, s, temp - s);
 	*m_s = ft_merge(*m_s, str);

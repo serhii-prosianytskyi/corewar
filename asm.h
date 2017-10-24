@@ -179,27 +179,27 @@ int						word_counter(char *str);
 /*
 **asm.h
 */
-void				asm_main(t_to_compile *elem);
-char				*ft_fname(int size, char *fname);
-t_code				*ft_encoding(t_to_compile *elem, t_headers *strc);
-t_code				*ft_t_code_new(void);
-void				ft_f_str_param(t_code *inst, t_new_list *code, int i, int j);
-char				*ft_realloc(char *ptr, int size, char *buf);
-int					ft_num_operation(char *code_line, int *j, t_code *inst);
-void				ft_fill_op_param(int size, char *code_line, t_code *inst);
-void				ft_split_param(t_code *inst, char *str);
-void				ft_convert_param(t_code *inst);
-void				ft_reg(t_code *inst, int num);
-void				ft_dir(t_code *inst, int num);
-void				ft_ind(t_code *inst, int num);
-void				ft_label(t_code *inst);
-void				ft_count_len(t_code *inst, int num_r, t_code *ptr);
-int					ft_length(t_code *inst, int start, int end);
-unsigned int		ft_prog_size(t_code *inst);
-void				ft_write_to_cor(t_headers s, t_code *inst, int fd);
-void				ft_write_opcode(t_code *inst, int fd);
-void				ft_write_param(int i, t_code *copy, int fd);
-void				ft_del_to_compile(t_to_compile *elem);
-void				ft_del_code(t_code *inst);
+void					asm_main(t_to_compile *elem);
+char					*ft_fname(int size, char *fname);
+t_code					*ft_encoding(t_to_compile *elem, t_headers *strc);
+t_code					*ft_t_code_new(void);
+void					ft_f_str_param(t_code *in, t_new_list *c, int i, int j);
+char					*ft_realloc(char *ptr, int size, char *buf);
+int						ft_num_operation(char *code_line, int *j, t_code *inst);
+void					ft_fill_op_param(int size, char *code_l, t_code *inst);
+void					ft_split_param(t_code *inst, char *str);
+void					ft_convert_param(t_code *inst);
+void					ft_reg(t_code *inst, int num);
+void					ft_dir(t_code *inst, int num);
+void					ft_ind(t_code *inst, int num);
+void					ft_label(t_code *inst);
+void					ft_count_len(t_code *inst, int num_r, t_code *ptr);
+int						ft_length(t_code *inst, int start, int end);
+unsigned int			ft_prog_size(t_code *inst);
+void					ft_write_to_cor(t_headers s, t_code *inst, int fd);
+void					ft_write_opcode(t_code *inst, int fd);
+void					ft_write_param(int i, t_code *copy, int fd);
+void					ft_del_to_compile(t_to_compile *elem);
+void					ft_del_code(t_code *inst);
 
 #endif
