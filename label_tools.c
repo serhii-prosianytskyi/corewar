@@ -57,7 +57,7 @@ void			add_right_label(t_label_list **ll, char *str, int *i)
 		temp = temp->next;
 	}
 	if (ft_strcmp(temp->name, str) == 0)
-		temp->is_left = 1;
+		temp->is_right = 1;
 	else
 		temp->next = new_label(str, *i, 0, 1);
 }
