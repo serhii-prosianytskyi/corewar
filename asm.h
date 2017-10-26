@@ -201,5 +201,6 @@ void					ft_write_opcode(t_code *inst, int fd);
 void					ft_write_param(int i, t_code *copy, int fd);
 void					ft_del_to_compile(t_to_compile *elem);
 void					ft_del_code(t_code *inst);
+void					ft_cut_label(int num, t_code *inst, int flag);
 
 #endif

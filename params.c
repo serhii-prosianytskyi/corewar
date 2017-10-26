@@ -87,7 +87,7 @@ void	ft_dir(t_code *inst, int num)
 		free(str);
 	}
 	else
-		inst->ptr_label = num;
+		ft_cut_label(num, inst, 1);
 }
 
 void	ft_ind(t_code *inst, int num)
@@ -104,7 +104,7 @@ void	ft_ind(t_code *inst, int num)
 		inst->coding_byte += 12;
 	i = -1;
 	str = NULL;
-	if (inst->params[num][1] != ':')
+	if (inst->params[num][0] != ':')
 	{
 		while (inst->params[num][++i] != ',' && inst->params[num][i] != '\0')
 			str = ft_realloc(str, 1, &inst->params[num][i]);
@@ -112,7 +112,7 @@ void	ft_ind(t_code *inst, int num)
 		free(str);
 	}
 	else
-		inst->ptr_label = num;
+		ft_cut_label(num, inst, 2);
 }
 
 void	ft_convert_param(t_code *inst)

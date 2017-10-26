@@ -68,7 +68,7 @@ void			ft_label(t_code *inst)
 			while (copy)
 			{
 				if (copy->label_flag &&
-					!ft_strcmp(&ptr->params[ptr->ptr_label][2], copy->label))
+					!ft_strcmp(ptr->params[ptr->ptr_label], copy->label))
 				{
 					ft_count_len(inst, copy->row, ptr);
 					break ;
@@ -78,6 +78,26 @@ void			ft_label(t_code *inst)
 		}
 		ptr = ptr->next;
 	}
+}
+
+void			ft_cut_label(int num, t_code *inst, int flag)
+{
+	char	*str;
+	int		size;
+
+	if (flag == 1)
+	{
+		size = (int)ft_strlen(inst->params[num]) - 2;
+		str = ft_realloc(NULL, size, &inst->params[num][2]);
+	}
+	else
+	{
+		size = (int)ft_strlen(inst->params[num]) - 1;
+		str = ft_realloc(NULL, size, &inst->params[num][1]);
+	}
+	inst->ptr_label = num;
+	free(inst->params[num]);
+	inst->params[num] = str;
 }
 
 unsigned int	ft_prog_size(t_code *inst)
