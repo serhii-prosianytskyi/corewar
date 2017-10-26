@@ -51,7 +51,7 @@ void	ft_reg(t_code *inst, int num)
 		inst->coding_byte += 16;
 	else if (num == 2 && inst->coding_byte_flag)
 		inst->coding_byte += 4;
-	i = 0;
+	i = 1;
 	str = NULL;
 	while (inst->params[num][i] != ',' && inst->params[num][i] != '\0')
 	{
@@ -74,7 +74,7 @@ void	ft_dir(t_code *inst, int num)
 		inst->coding_byte += 32;
 	else if (num == 2 && inst->coding_byte_flag)
 		inst->coding_byte += 8;
-	i = -1;
+	i = 0;
 	str = NULL;
 	if (inst->params[num][1] != ':')
 	{

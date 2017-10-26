@@ -107,7 +107,7 @@ void	ft_f_str_param(t_code *inst, t_new_list *code, int i, int j)
 	{
 		inst->label = ft_realloc(NULL, j - 1, code->line);
 		inst->label_flag = 1;
-		if (code->line[j] == '\0')
+		if (code->line[j] == '\0' || code->line[j + 1] == '\0')
 			return ;
 	}
 	if (inst->label)
@@ -123,5 +123,5 @@ void	ft_f_str_param(t_code *inst, t_new_list *code, int i, int j)
 	}
 	while (code->line[j] == ' ')
 		j++;
-	ft_fill_op_param((int)ft_strlen(code->line) - j, &code->line[j], inst);
+	ft_fill_op_param(ft_strlen(code->line) - j, &code->line[j], inst);
 }
