@@ -6,7 +6,7 @@
 /*   By: askochen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 20:10:00 by askochen          #+#    #+#             */
-/*   Updated: 2017/10/10 20:10:04 by askochen         ###   ########.fr       */
+/*   Updated: 2017/10/27 20:23:31 by lfedorko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@ void		add_str_to_list(t_new_list **list, char *str)
 	temp->next = NULL;
 	temp->line = ft_strdup(str);
 	ft_lstadd_back(list, temp);
-}
-
-void		print_list(t_new_list **list)
-{
-	t_new_list	*temp;
-
-	temp = *list;
-	while (temp != NULL)
-	{
-		printf("%s\n", temp->line);
-		temp = temp->next;
-	}
 }
 
 void		ft_del_list(t_new_list *list)
@@ -75,7 +63,7 @@ t_new_list	*read_file_to_list(int fd)
 	t_new_list		*list;
 
 	list = NULL;
-	while (get_next_line(fd, &str))
+	while (get_next_line(fd, &str) > 0)
 	{
 		add_str_to_list(&list, str);
 		free(str);

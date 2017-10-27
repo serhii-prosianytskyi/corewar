@@ -104,7 +104,7 @@ void	asm_main(t_to_compile *elem)
 
 	str = ft_fname((int)ft_strlen(elem->file_name), elem->file_name);
 	if ((fd = open(str, O_CREAT | O_TRUNC | O_RDWR, S_IREAD | S_IWRITE)) < 0)
-		ft_error("Can't open file", -1);
+		ft_error("Can't open file\n", -1);
 	free(str);
 	s.magic = COREWAR_EXEC_MAGIC;
 	ft_bzero(s.prog_name, PROG_NAME_LENGTH + 1);

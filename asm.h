@@ -6,7 +6,7 @@
 /*   By: askochen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 14:54:00 by askochen          #+#    #+#             */
-/*   Updated: 2017/10/08 14:54:12 by askochen         ###   ########.fr       */
+/*   Updated: 2017/10/27 20:24:55 by lfedorko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <limits.h>
 # include "op.h"
 # define COR			"cor"

@@ -18,13 +18,13 @@ char			*check_file_name(char *str)
 
 	len = ft_strlen(str);
 	if (len < 3)
-		ft_error("Bad file_name", -1);
+		ft_error("Bad file_name\n", -1);
 	if (*(str + len - 2) != '.')
-		ft_error("Bad file_name", -1);
+		ft_error("Bad file_name\n", -1);
 	if (*(str + len - 1) != 's')
-		ft_error("Bad file_name", -1);
+		ft_error("Bad file_name\n", -1);
 	if (*(str + len - 3) == '/')
-		ft_error("Bad file_name", -1);
+		ft_error("Bad file_name\n", -1);
 	return (ft_strdup(str));
 }
 
@@ -37,7 +37,7 @@ t_to_compile	*pars_file(t_new_list *list, t_to_compile *main_struct)
 	{
 		list = ignore_empty_lines(list, &counter);
 		if (list == NULL)
-			ft_error("No code", -1);
+			ft_error("No code\n", -1);
 		if (ft_strstr(list->line, ".name") != NULL)
 			list = pars_name(list, main_struct, &counter);
 		else if (ft_strstr(list->line, ".comment") != NULL)
@@ -63,7 +63,7 @@ t_new_list		*pars_name(t_new_list *list, t_to_compile *main_struct, int *i)
 		ft_error("Syntax error: No name!", *i);
 	str = ignore_white_space(list->line);
 	if (ft_strncmp(str, ".name", 5) != 0)
-		ft_error("Sintax error: .name ", *i);
+		ft_error("Syntax error: .name ", *i);
 	str = str + 5;
 	str = ignore_white_space(str);
 	if (*str != '"')
