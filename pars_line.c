@@ -6,7 +6,7 @@
 /*   By: askochen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 20:10:21 by askochen          #+#    #+#             */
-/*   Updated: 2017/10/10 20:10:26 by askochen         ###   ########.fr       */
+/*   Updated: 2017/10/27 18:51:30 by lfedorko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ char			*check_file_name(char *str)
 
 	len = ft_strlen(str);
 	if (len < 3)
-		ft_error("Bab file_name", -1);
+		ft_error("Bad file_name", -1);
 	if (*(str + len - 2) != '.')
-		ft_error("Bab file_name", -1);
+		ft_error("Bad file_name", -1);
 	if (*(str + len - 1) != 's')
-		ft_error("Bab file_name", -1);
+		ft_error("Bad file_name", -1);
 	if (*(str + len - 3) == '/')
-		ft_error("Bab file_name", -1);
+		ft_error("Bad file_name", -1);
 	return (ft_strdup(str));
 }
 
